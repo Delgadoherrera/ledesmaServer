@@ -17,5 +17,16 @@ router.post("/productos/nuevoProducto", (req, res) => {
     cantidad: dir.cantidad,
   });
   res.status(200).send();
+
+  router.get("/productos/listarTodos", async (req, res) => {
+    Producto.findAll()
+      .then(function (productos) {
+        console.log('productos',productos)
+        return res.status(200).send(productos);
+      })
+      .catch((error) => {
+        console.log("error catch" + error);
+      });
+  });
 });
 module.exports = router;
