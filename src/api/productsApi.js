@@ -1,33 +1,29 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database/models");
-const Producto = db.Producto;
+const Catalogo_materiales = db.Catalogo_materiales;
+const Compra_materiales = db.Compra_materiales;
+const Cotizacion = db.Cotizacion;
+
 var Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
-router.post("/productos/nuevoProducto", (req, res) => {
+router.post("/materiales/nuevoMaterial", (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   const dir = req.body;
-  Producto.create({
-    codigo: dir.codigo,
-    articulo: dir.articulo,
+  Catalogo_materiales.create({
     descripcion: dir.descripcion,
-    largo: dir.largo || 0 ,
-    litros: dir.litros || 0,
-    ancho: dir.ancho || 0 ,
-    alto: dir.alto ||0,
-    kilogramos: dir.kilogramos || 0,
-    unidadMedida: dir.unidadMedida,
-    cantidad: dir.cantidad,
+    tamano: dir.tamano,
+    unidadMedida:dir.unidadMedida
   });
   res.status(200).send();
 });
 
-router.get("/productos/listarTodos", (req, res) => {
-  Producto.findAll()
-    .then(function (productos) {
-      console.log("productos", productos);
-      return res.status(200).send(productos);
+router.get("/materiales/listarTodos", (req, res) => {
+  Catalogo_materiales.findAll()
+    .then(function (materiales) {
+      console.log("materiales", materiales);
+      return res.status(200).send(materiales);
     })
     .catch((error) => {
       console.log("error catch" + error);
