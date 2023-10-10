@@ -19,5 +19,12 @@ module.exports = (sequelize, dataTypes) => {
   };
   const Cotizacion = sequelize.define(alias, cols, config);
 
+
+  Cotizacion.associate = function (models) {
+    Cotizacion.belongsTo(models.Catalogo_material, {
+      as: "catalogo_material",
+      foreignKey: "idMaterial",
+    });
+  };
   return Cotizacion;
 };

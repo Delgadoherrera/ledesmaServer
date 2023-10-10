@@ -6,14 +6,14 @@ module.exports = (sequelize, dataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    idMaterial: {
-      type: dataTypes.INTEGER,
+    descripcion: {
+      type: dataTypes.STRING,
     },
-    fechaCompra: {
-      type: dataTypes.DATE,
+    unidadMedida: {
+      type: dataTypes.STRING,
     },
-    precio: {
-      type: dataTypes.DECIMAL,
+    medida: {
+      type: dataTypes.STRING,
     },
   };
 
