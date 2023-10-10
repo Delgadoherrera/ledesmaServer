@@ -10,9 +10,12 @@ router.post("/productos/nuevoProducto", (req, res) => {
   const dir = req.body;
   Producto.create({
     codigo: dir.codigo,
+    articulo: dir.articulo,
     descripcion: dir.descripcion,
     largo: dir.largo,
     ancho: dir.ancho,
+    alto: dir.alto,
+    peso: dir.peso,
     unidadMedida: dir.unidadMedida,
     cantidad: dir.cantidad,
   });

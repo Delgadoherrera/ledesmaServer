@@ -12,7 +12,16 @@ module.exports = (sequelize, dataTypes) => {
     descripcion: {
       type: dataTypes.STRING,
     },
+    articulo: {
+      type: dataTypes.STRING,
+    },
     largo: {
+      type: dataTypes.STRING,
+    },
+    peso: {
+      type: dataTypes.INT,
+    },
+    alto: {
       type: dataTypes.STRING,
     },
     ancho: {
