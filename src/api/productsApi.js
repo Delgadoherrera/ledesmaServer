@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database/models");
-const Catalogo_materiales = db.Catalogo_materiales;
-const Compra_materiales = db.Compra_materiales;
+const Catalogo_materiales = db.Catalogo_material;
+const Compra_materiales = db.Compra_material;
 const Cotizacion = db.Cotizacion;
 
 var Sequelize = require("sequelize");
