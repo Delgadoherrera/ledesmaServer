@@ -11,7 +11,6 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
-server.listen(4000);
 app.use("/", productsApi);
 
 const PORT = 3004;
