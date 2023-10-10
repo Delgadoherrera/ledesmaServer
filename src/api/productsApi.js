@@ -20,7 +20,6 @@ router.post("/productos/nuevoProducto", (req, res) => {
 });
 
 router.get("/productos/listarTodos", (req, res) => {
-  console.log("req", req);
   Producto.findAll()
     .then(function (productos) {
       console.log("productos", productos);
