@@ -21,7 +21,7 @@ module.exports = (sequelize, dataTypes) => {
     largo: {
       type: dataTypes.STRING,
     },
-    peso: {
+    kilogramos: {
       type: dataTypes.INT,
     },
     alto: {
