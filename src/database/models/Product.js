@@ -22,7 +22,7 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.STRING,
     },
     kilogramos: {
-      type: dataTypes.INT,
+      type: dataTypes.INTEGER,
     },
     alto: {
       type: dataTypes.STRING,
