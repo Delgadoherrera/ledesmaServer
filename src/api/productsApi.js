@@ -16,7 +16,7 @@ router.post("/productos/nuevoProducto", (req, res) => {
     litros: dir.largo,
     ancho: dir.ancho,
     alto: dir.alto,
-    peso: dir.peso,
+    peso: dir.kilogramos,
     unidadMedida: dir.unidadMedida,
     cantidad: dir.cantidad,
   });
