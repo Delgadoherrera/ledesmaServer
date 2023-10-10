@@ -13,6 +13,7 @@ router.post("/productos/nuevoProducto", (req, res) => {
     articulo: dir.articulo,
     descripcion: dir.descripcion,
     largo: dir.largo,
+    litros: dir.largo,
     ancho: dir.ancho,
     alto: dir.alto,
     peso: dir.peso,

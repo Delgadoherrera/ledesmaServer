@@ -9,6 +9,9 @@ module.exports = (sequelize, dataTypes) => {
     codigo: {
       type: dataTypes.INTEGER,
     },
+    litros: {
+      type: dataTypes.INTEGER,
+    },
     descripcion: {
       type: dataTypes.STRING,
     },
