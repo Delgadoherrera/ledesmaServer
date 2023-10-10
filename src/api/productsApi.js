@@ -17,17 +17,18 @@ router.post("/productos/nuevoProducto", (req, res) => {
     cantidad: dir.cantidad,
   });
   res.status(200).send();
-
-  router.get("/productos/listarTodos", (req, res) => {
-    console.log('req',req)
-    Producto.findAll()
-      .then(function (productos) {
-        console.log('productos',productos)
-        return res.status(200).send(productos);
-      })
-      .catch((error) => {
-        console.log("error catch" + error);
-      });
-  });
 });
+
+router.get("/productos/listarTodos", (req, res) => {
+  console.log("req", req);
+  Producto.findAll()
+    .then(function (productos) {
+      console.log("productos", productos);
+      return res.status(200).send(productos);
+    })
+    .catch((error) => {
+      console.log("error catch" + error);
+    });
+});
+
 module.exports = router;
