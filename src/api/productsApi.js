@@ -7,7 +7,7 @@ const Op = Sequelize.Op;
 
 router.post("/productos/nuevoProducto", (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
-  const dir = req.body.formData;
+  const dir = req.body;
   Producto.create({
     codigo: dir.codigo,
     descripcion: dir.descripcion,
