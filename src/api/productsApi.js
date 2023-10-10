@@ -13,7 +13,7 @@ router.post("/materiales/nuevoMaterial", (req, res) => {
   const dir = req.body;
   Catalogo_materiales.create({
     descripcion: dir.descripcion,
-    tamano: dir.tamano,
+    medida: dir.medida,
     unidadMedida:dir.unidadMedida
   });
   res.status(200).send();
