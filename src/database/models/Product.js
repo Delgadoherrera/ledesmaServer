@@ -9,13 +9,7 @@ module.exports = (sequelize, dataTypes) => {
     codigo: {
       type: dataTypes.INTEGER,
     },
-    nombre: {
-      type: dataTypes.STRING,
-    },
     descripcion: {
-      type: dataTypes.STRING,
-    },
-    status: {
       type: dataTypes.STRING,
     },
     largo: {
