@@ -18,7 +18,7 @@ router.post("/productos/nuevoProducto", (req, res) => {
   });
   res.status(200).send();
 
-  router.get("/productos/listarTodos", async (req, res) => {
+  router.get("/productos/listarTodos", (req, res) => {
     Producto.findAll()
       .then(function (productos) {
         console.log('productos',productos)
