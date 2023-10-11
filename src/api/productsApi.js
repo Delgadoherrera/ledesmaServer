@@ -14,7 +14,7 @@ router.post("/materiales/nuevoMaterial", (req, res) => {
   Catalogo_materiales.create({
     descripcion: dir.descripcion,
     medida: dir.medida,
-    unidadMedida:dir.unidadMedida
+    unidadMedida: dir.unidadMedida,
   });
   res.status(200).send();
 });
@@ -30,8 +30,8 @@ router.get("/materiales/listarTodos", (req, res) => {
     });
 });
 
-
 router.post("/materiales/borrarMaterial/:id", async (req, res) => {
+  console.log("req", req);
   await Catalogo_materiales.destroy({
     where: {
       id: req.params.id,
