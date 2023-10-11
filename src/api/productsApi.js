@@ -52,7 +52,11 @@ router.post("/materiales/editar/:id", async (req, res) => {
     {
       where: { id: req.params.id },
     }
-  ).catch((error) => res.send(error));
+  );
+  res
+    .status(200)
+    .send("success")
+    .catch((error) => res.send(error));
 });
 
 module.exports = router;
