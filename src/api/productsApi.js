@@ -31,7 +31,6 @@ router.get("/materiales/listarTodos", (req, res) => {
 });
 
 router.post("/materiales/borrarMaterial/:id", (req, res) => {
-  console.log("req", req);
   Catalogo_materiales.destroy({
     where: {
       id: req.params.id,
@@ -45,9 +44,9 @@ router.post("/materiales/editar/:id", async (req, res) => {
   console.log("editar material:", req.body);
   Catalogo_materiales.update(
     {
-      descripcion: req.body.descripcion,
-      medida: req.body.medida,
-      unidadMedida: req.body.unidadMedida,
+      descripcion: req.body.data.descripcion,
+      medida: req.body.data.medida,
+      unidadMedida: req.body.data.unidadMedida,
     },
     {
       where: { id: req.params.id },
