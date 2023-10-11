@@ -22,7 +22,6 @@ router.post("/materiales/nuevoMaterial", (req, res) => {
 router.get("/materiales/listarTodos", (req, res) => {
   Catalogo_materiales.findAll()
     .then(function (materiales) {
-      console.log("materiales", materiales);
       return res.status(200).send(materiales);
     })
     .catch((error) => {
