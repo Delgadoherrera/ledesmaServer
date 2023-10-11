@@ -30,4 +30,15 @@ router.get("/materiales/listarTodos", (req, res) => {
     });
 });
 
+
+router.post("/materiales/borrarMaterial/:id", async (req, res) => {
+  await Catalogo_materiales.destroy({
+    where: {
+      id: req.params.id,
+    },
+  });
+
+  res.status(200).send("success");
+});
+
 module.exports = router;
