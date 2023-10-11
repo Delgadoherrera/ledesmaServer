@@ -41,4 +41,18 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
   res.status(200).send("success");
 });
 
+router.post("/materiales/editar/:id", async (req, res) => {
+  console.log("editar material:", req.body);
+  Catalogo_materiales.update(
+    {
+      descripcion: req.body.descripcion,
+      medida: req.body.medida,
+      unidadMedida: req.body.unidadMedida,
+    },
+    {
+      where: { id: req.params.id },
+    }
+  ).catch((error) => res.send(error));
+});
+
 module.exports = router;
