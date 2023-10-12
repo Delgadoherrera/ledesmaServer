@@ -18,9 +18,6 @@ module.exports = (sequelize, dataTypes) => {
     precioPesos: {
       type: dataTypes.DECIMAL,
     },
-    cantidad: {
-      type: dataTypes.INTEGER,
-    },
   };
 
   let config = {
