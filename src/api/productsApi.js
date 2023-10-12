@@ -81,6 +81,7 @@ router.get("/compras/listarTodas", (req, res) => {
     ],
   })
     .then(function (compras) {
+      console.log('COMPRAS con INCLUDE', compras)
       return res.status(200).send(compras);
     })
     .catch((error) => {
