@@ -64,7 +64,6 @@ router.post("/materiales/comprar/:id", (req, res) => {
     fechaCompra: "12/01/2022",
     precioPesos: 1,
     precioDolar: 800,
-    cantidad: dir.cantidad,
   });
   res.status(200).send();
 });
