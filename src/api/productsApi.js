@@ -8,6 +8,8 @@ const Cotizacion = db.Cotizacion;
 var Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
+//MATERIALES
+
 router.post("/materiales/nuevoMaterial", (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   const dir = req.body;
@@ -54,6 +56,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
   res.status(200).send("success");
 });
 
+// COMPRAS
 router.post("/materiales/comprar/:id", (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   console.log("paramId", req.params.id);
@@ -65,6 +68,16 @@ router.post("/materiales/comprar/:id", (req, res) => {
     precioDolar: 800,
   });
   res.status(200).send();
+});
+
+router.get("/compras/listarTodas", (req, res) => {
+  Compra_materiales.findAll()
+    .then(function (materiales) {
+      return res.status(200).send(materiales);
+    })
+    .catch((error) => {
+      console.log("error catch" + error);
+    });
 });
 
 module.exports = router;
