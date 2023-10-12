@@ -54,13 +54,12 @@ router.post("/materiales/editar/:id", async (req, res) => {
   res.status(200).send("success");
 });
 
-
-
 router.post("/materiales/comprar/:id", (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
+  console.log("paramId", req.params.id);
   const dir = req.body;
   Compra_materiales.create({
-    idMaterial:req.params.id,
+    idMaterial: req.params.id,
     fechaCompra: "12/01/2022",
     precioPesos: 1,
     precioDolar: 800,
