@@ -64,8 +64,8 @@ router.post("/materiales/comprar/:id", (req, res) => {
   Compra_materiales.create({
     idMaterial: req.params.id,
     fechaCompra: "12/01/2022",
-    precioPesos: 1,
-    precioDolar: 800,
+    precioPesos: dir.precioPesos,
+    precioDolar: dir.precioDolar,
   });
   res.status(200).send();
 });
