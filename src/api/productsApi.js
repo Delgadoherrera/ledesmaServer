@@ -72,12 +72,19 @@ router.post("/materiales/comprar/:id", (req, res) => {
 });
 
 router.get("/compras/listarTodas", (req, res) => {
-  Compra_materiales.findAll()
-    .then(function (materiales) {
-      return res.status(200).send(materiales);
+  Compra_materiales.findAll({
+    include: [
+      {
+        model: Catalogo_materiales,
+        as: 'catalogo_material', // Alias para la relación
+      },
+    ],
+  })
+    .then(function (compras) {
+      return res.status(200).send(compras);
     })
     .catch((error) => {
-      console.log("error catch" + error);
+      console.log("Error al listar compras: " + error);
     });
 });
 
