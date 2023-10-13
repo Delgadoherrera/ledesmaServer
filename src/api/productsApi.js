@@ -21,6 +21,7 @@ router.post("/materiales/nuevoMaterial", (req, res) => {
   Catalogo_materiales.create({
     descripcion: dir.descripcion,
     medida: dir.medida,
+    unidadMedida: dir.unidadMedida
   });
   res.status(200).send();
 });
