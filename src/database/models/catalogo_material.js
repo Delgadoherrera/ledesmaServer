@@ -19,10 +19,12 @@ module.exports = (sequelize, dataTypes) => {
     timestamps: false,
   };
   const Catalogo_material = sequelize.define(alias, cols, config);
-  Catalogo_material.hasOne(Catalogo_unidad_medida, {
-    foreignKey: "unidadMedida", // Nombre de la columna que relaciona los modelos
-    as: "unidadMedida", // Alias para la relación
-  });
+  Catalogo_material.associate = function (models) {
+    Catalogo_material.hasOne(models.Catalogo_unidad_medida, {
+      as: "catalogo_unidad_medida",
+      foreignKey: "id", // La columna que hace referencia a unidades de medida en la tabla de materiales
+    });
+  };
 
   return Catalogo_material;
 };
