@@ -17,14 +17,38 @@ const fecha = nowDate.toLocaleDateString("en-ZA");
 router.post("/materiales/nuevoMaterial", (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   const dir = req.body;
-  Catalogo_materiales.create({
-    descripcion: dir.descripcion,
-    medida: dir.medida,
-    unidadMedida: dir.unidadMedida,
-  });
-  res.status(200).send();
-});
 
+  // Verifica que la unidad de medida exista en la tabla catalogo_unidad_medida
+  Catalogo_unidad_medida.findOne({
+    where: {
+      unidadMedida: dir.unidadMedida,
+    },
+  })
+    .then((unidadMedidaEncontrada) => {
+      if (unidadMedidaEncontrada) {
+        // Si se encontró la unidad de medida, crea un nuevo material
+        Catalogo_materiales.create({
+          descripcion: dir.descripcion,
+          medida: dir.medida,
+          unidadMedida: unidadMedidaEncontrada.id, // Asocia con el id de la unidad de medida
+        })
+          .then((nuevoMaterial) => {
+            res.status(200).send(nuevoMaterial);
+          })
+          .catch((error) => {
+            console.log("Error al crear nuevo material: " + error);
+            res.status(500).send("Error al crear nuevo material");
+          });
+      } else {
+        // La unidad de medida no se encontró, maneja el error
+        res.status(400).send("La unidad de medida no existe");
+      }
+    })
+    .catch((error) => {
+      console.log("Error al buscar unidad de medida: " + error);
+      res.status(500).send("Error al buscar unidad de medida");
+    });
+});
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("listando productos");
   Catalogo_materiales.findAll({
