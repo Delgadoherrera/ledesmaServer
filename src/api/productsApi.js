@@ -53,7 +53,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
     await Catalogo_materiales.create({
       descripcion: dir.descripcion,
       medida: dir.medida,
-      unidadMedida: unidadMedidaExistente.id, // Asociación al ID de la unidad de medida existente
+      unidadMedida: dir.unidadMedida, // Asociación al nombre de la unidad de medida
     });
   } else {
     // Si la unidad de medida no existe, primero créala y luego crea el producto
@@ -64,13 +64,12 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
     await Catalogo_materiales.create({
       descripcion: dir.descripcion,
       medida: dir.medida,
-      unidadMedida: nuevaUnidadMedida.id,
+      unidadMedida: dir.unidadMedida, // Asociación al nombre de la unidad de medida
     });
   }
 
   res.status(200).send();
 });
-
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
 
