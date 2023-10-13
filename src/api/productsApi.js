@@ -4,7 +4,7 @@ const db = require("../database/models");
 const Catalogo_materiales = db.Catalogo_material;
 const Compra_materiales = db.Compra_material;
 const Cotizacion = db.Cotizacion;
-const Catalago_unidad_medida = db.Catalago_unidad_medida;
+const Catalago_unidad_medidas = db.Catalago_unidad_medida;
 
 var Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -30,7 +30,7 @@ router.get("/materiales/listarTodos", (req, res) => {
   Catalogo_materiales.findAll({
     include: [
       {
-        model: Catalago_unidad_medida,
+        model: Catalago_unidad_medidas,
         as: "Catalogo_unidad_medida", // Alias para la relación
       },
     ],
