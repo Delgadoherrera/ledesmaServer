@@ -20,7 +20,7 @@ module.exports = (sequelize, dataTypes) => {
   Catalogo_unidad_medida.associate = function (models) {
     Catalogo_unidad_medida.hasMany(models.Catalogo_material, {
       as: "catalogo_material", // Alias para la relación
-      foreignKey: "unidadMedida", // La columna correcta que relaciona unidades de medida con materiales
+      foreignKey: "id", // La columna correcta que relaciona unidades de medida con materiales
     });
   };
   return Catalogo_unidad_medida;  
