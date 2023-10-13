@@ -12,7 +12,6 @@ const objetoFecha = Date.now();
 const nowDate = new Date(objetoFecha);
 const fecha = nowDate.toLocaleDateString("en-ZA");
 
-
 //MATERIALES
 
 router.post("/materiales/nuevoMaterial", (req, res) => {
@@ -21,14 +20,22 @@ router.post("/materiales/nuevoMaterial", (req, res) => {
   Catalogo_materiales.create({
     descripcion: dir.descripcion,
     medida: dir.medida,
-    unidadMedida: dir.unidadMedida
+    unidadMedida: dir.unidadMedida,
   });
   res.status(200).send();
 });
 
 router.get("/materiales/listarTodos", (req, res) => {
-  console.log('listando productos');
-  Catalogo_materiales.findAll()
+  console.log("listando productos");
+  Catalogo_materiales.findAll({
+    include: [
+      {
+        model: Catalago_unidad_medida,
+        as: "catalogo_unidad_medida", // Alias para la relación
+      },
+    ],
+  })
+
     .then(function (materiales) {
       return res.status(200).send(materiales);
     })
@@ -66,7 +73,7 @@ router.post("/materiales/comprar/:id", (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   console.log("paramId", req.params.id);
   const dir = req.body.data;
-  console.log('DIR',dir)
+  console.log("DIR", dir);
   Compra_materiales.create({
     idMaterial: req.params.id,
     fechaCompra: fecha,
@@ -81,12 +88,12 @@ router.get("/compras/listarTodas", (req, res) => {
     include: [
       {
         model: Catalogo_materiales,
-        as: 'catalogo_material', // Alias para la relación
+        as: "catalogo_material", // Alias para la relación
       },
     ],
   })
     .then(function (compras) {
-      console.log('COMPRAS con INCLUDE', compras)
+      console.log("COMPRAS con INCLUDE", compras);
       return res.status(200).send(compras);
     })
     .catch((error) => {
