@@ -19,7 +19,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
   const dir = req.body;
 
   // Primero, crea el nuevo producto en Catalogo_material
-  const nuevoProducto = await Catalogo_material.create({
+  const nuevoProducto = await Catalogo_materiales.create({
     descripcion: dir.descripcion,
     medida: dir.medida,
   });
