@@ -14,7 +14,7 @@ module.exports = (sequelize, dataTypes) => {
     },
   };
   let config = {
-    tableName: "Cotizacion",
+    tableName: "cotizacion",
     timestamps: false,
   };
   const Cotizacion = sequelize.define(alias, cols, config);
