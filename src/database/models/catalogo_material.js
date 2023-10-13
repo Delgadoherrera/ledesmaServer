@@ -9,9 +9,6 @@ module.exports = (sequelize, dataTypes) => {
     descripcion: {
       type: dataTypes.STRING,
     },
-    unidadMedida: {
-      type: dataTypes.STRING,
-    },
     medida: {
       type: dataTypes.STRING,
     },
