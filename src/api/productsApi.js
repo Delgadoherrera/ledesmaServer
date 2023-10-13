@@ -13,7 +13,7 @@ const nowDate = new Date(objetoFecha);
 const fecha = nowDate.toLocaleDateString("en-ZA");
 
 //MATERIALES
-router.post("/materiales/nuevoMaterial", async (req, res) => {
+/* router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   const dir = req.body;
 
@@ -38,8 +38,8 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
   }
 
   res.status(200).send();
-});
-/* router.post("/materiales/nuevoMaterial", async (req, res) => {
+}); */
+router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   const dir = req.body;
 
@@ -70,7 +70,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
 
   res.status(200).send();
 });
- */
+
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
 
