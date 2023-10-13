@@ -47,14 +47,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
 });
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("listando productos");
-  Catalogo_materiales.findAll({
-    include: [
-      {
-        model: Catalogo_unidad_medida, // Nombre del modelo
-        as: "id", // Alias para la relación
-      },
-    ],
-  })
+  Catalogo_materiales.findAll()
 
     .then(function (materiales) {
       console.log("LOS MATERIALES", materiales);
