@@ -19,6 +19,11 @@ module.exports = (sequelize, dataTypes) => {
     timestamps: false,
   };
   const Catalogo_material = sequelize.define(alias, cols, config);
-
+  Catalogo_material.associate = function (models) {
+    Catalogo_material.hasMany(models.Catalogo_unidad_medida, {
+      as: "unidadMedida", // Alias para la relación
+      foreignKey: "id",
+    });
+  };
   return Catalogo_material;
 };
