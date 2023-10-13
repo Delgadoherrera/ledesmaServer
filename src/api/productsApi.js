@@ -18,7 +18,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
   const dir = req.body;
 
   // Primero, verifica si la unidad de medida ya existe en Catalogo_material
-  const unidadMedidaExistente = await Catalogo_material.findOne({
+  const unidadMedidaExistente = await Catalogo_materiales.findOne({
     where: { unidadMedida: dir.unidadMedida },
   });
 
