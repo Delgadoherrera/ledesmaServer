@@ -46,15 +46,22 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
   res.status(200).send();
 });
 router.get("/materiales/listarTodos", (req, res) => {
-  console.log("listando productos");
-  Catalogo_materiales.findAll()
+  console.log("Listando productos con unidades de medida");
 
+  Catalogo_material.findAll({
+    include: [
+      {
+        model: Catalogo_unidad_medida,
+        as: "unidadMedida", // Nombre de la relación en el modelo Catalogo_material
+      },
+    ],
+  })
     .then(function (materiales) {
       console.log("LOS MATERIALES", materiales);
       return res.status(200).send(materiales);
     })
     .catch((error) => {
-      console.log("error catch" + error);
+      console.log("Error: " + error);
     });
 });
 
