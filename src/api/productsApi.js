@@ -18,20 +18,29 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   const dir = req.body;
 
-  // Primero, crea el nuevo producto en Catalogo_material
-  const nuevoProducto = await Catalogo_materiales.create({
-    descripcion: dir.descripcion,
-    medida: dir.medida,
-  });
-
-  // Luego, busca el registro correspondiente en Catalogo_unidad_medida
-  const unidadMedida = await Catalogo_unidad_medida.findOne({
+  // Primero, verifica si la unidad de medida ya existe en Catalogo_unidad_medida
+  const unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
     where: { unidadMedida: dir.unidadMedida },
   });
 
-  // Si encuentras el registro en Catalogo_unidad_medida, establece la relación
-  if (unidadMedida) {
-    await nuevoProducto.setUnidadMedida(unidadMedida);
+  if (unidadMedidaExistente) {
+    // Si la unidad de medida existe, crea el nuevo producto en Catalogo_material
+    await Catalogo_materiales.create({
+      descripcion: dir.descripcion,
+      medida: dir.medida,
+      unidadMedida: unidadMedidaExistente.id, // Asociación al ID de la unidad de medida existente
+    });
+  } else {
+    // Si la unidad de medida no existe, primero créala y luego crea el producto
+    const nuevaUnidadMedida = await Catalogo_unidad_medida.create({
+      unidadMedida: dir.unidadMedida,
+    });
+
+    await Catalogo_materiales.create({
+      descripcion: dir.descripcion,
+      medida: dir.medida,
+      unidadMedida: nuevaUnidadMedida.id, // Asociación al ID de la nueva unidad de medida
+    });
   }
 
   res.status(200).send();
