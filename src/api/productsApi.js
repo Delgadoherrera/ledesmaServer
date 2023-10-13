@@ -110,6 +110,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
     console.log("Nuevo producto: req.body", req.body);
     console.log("paramId", req.params.id);
     const dir = req.body.data;
+    console.log("DIR", dir);
     
     // Acceder a la unidad de medida y la medida desde req.body
     const unidadMedida = req.body.unidadMedida;
@@ -125,14 +126,14 @@ router.post("/materiales/comprar/:id", async (req, res) => {
       medida: medida,
     });
     
-    // Crear una nueva cotización
+    // Crear una nueva cotización y asignar 'idCompra' correctamente
     const nuevaCotizacion = await Cotizacion.create({
       idCompra: nuevaCompra.idCompra, // Utiliza el ID de la compra recién creada
       fechaCotizacion: fecha, // Usa la misma 'fecha' que se usó para la compra
       conversion: dir.precioDolar, // Usar el valor de precioDolar
     });
     
-    res.status(200).send();
+    res.status(200).send("Compra y cotización creadas con éxito");
   } catch (error) {
     console.error("Error al realizar la compra y cotización:", error);
     res.status(500).send("Error al realizar la compra y cotización");
