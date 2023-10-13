@@ -21,7 +21,7 @@ module.exports = (sequelize, dataTypes) => {
   const Catalogo_material = sequelize.define(alias, cols, config);
   Catalogo_material.associate = function (models) {
     Catalogo_material.belongsTo(models.Catalogo_unidad_medida, {
-      as: "catalogo_unidad_medida",
+      as: "unidadMedida",
       foreignKey: "unidadMedida", // La columna que hace referencia a unidades de medida en la tabla de materiales
     });
   };
