@@ -48,7 +48,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
 
-  Catalogo_material.findAll({
+  Catalogo_materiales.findAll({
     include: [
       {
         model: Catalogo_unidad_medida,
