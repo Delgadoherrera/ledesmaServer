@@ -30,7 +30,7 @@ router.get("/materiales/listarTodos", (req, res) => {
   Catalogo_materiales.findAll({
     include: [
       {
-        model: Catalago_unidad_medidas,
+        model: Catalogo_unidad_medida,
         as: "Catalogo_unidad_medida", // Alias para la relación
       },
     ],
