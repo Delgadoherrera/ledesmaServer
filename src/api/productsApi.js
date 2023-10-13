@@ -57,7 +57,6 @@ router.get("/materiales/listarTodos", (req, res) => {
     ],
   })
     .then(function (materiales) {
-      console.log("LOS MATERIALES", materiales);
       return res.status(200).send(materiales);
     })
     .catch((error) => {
