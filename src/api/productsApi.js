@@ -128,7 +128,6 @@ router.post("/materiales/comprar/:id", async (req, res) => {
     
     // Crear una nueva cotización y asignar 'idCompra' correctamente
     const nuevaCotizacion = await Cotizacion.create({
-      idCompra: nuevaCompra.idCompra, // Utiliza el ID de la compra recién creada
       fechaCotizacion: fecha, // Usa la misma 'fecha' que se usó para la compra
       conversion: dir.precioDolar, // Usar el valor de precioDolar
     });
