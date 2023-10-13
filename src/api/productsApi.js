@@ -4,7 +4,7 @@ const db = require("../database/models");
 const Catalogo_materiales = db.Catalogo_material;
 const Compra_materiales = db.Compra_material;
 const Cotizacion = db.Cotizacion;
-const Catalago_unidad_medidas = db.Catalago_unidad_medida;
+const Catalago_unidad_medida = db.Catalago_unidad_medida;
 
 var Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -21,12 +21,12 @@ router.post("/materiales/nuevoMaterial", (req, res) => {
   Catalogo_materiales.create({
     descripcion: dir.descripcion,
     medida: dir.medida,
-    unidadMedida: dir.unidadMedida,
   });
   res.status(200).send();
 });
 
 router.get("/materiales/listarTodos", (req, res) => {
+  console.log('listando productos');
   Catalogo_materiales.findAll()
     .then(function (materiales) {
       return res.status(200).send(materiales);
@@ -52,7 +52,6 @@ router.post("/materiales/editar/:id", async (req, res) => {
     {
       descripcion: req.body.data.descripcion,
       medida: req.body.data.medida,
-      unidadMedida: req.body.data.unidadMedida,
     },
     {
       where: { id: req.params.id },

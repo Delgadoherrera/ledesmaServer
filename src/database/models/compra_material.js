@@ -25,7 +25,7 @@ module.exports = (sequelize, dataTypes) => {
   const Compra_material = sequelize.define(alias, cols, config);
 
   Compra_material.associate = function (models) {
-    Compra_material.belongsTo(models.Catalogo_material, {
+    Compra_material.belongsTo(models.catalogo_material, {
       as: "catalogo_material",
       foreignKey: "idMaterial",
     });
