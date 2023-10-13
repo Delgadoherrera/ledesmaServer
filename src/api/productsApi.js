@@ -14,7 +14,7 @@ const fecha = nowDate.toLocaleDateString("en-ZA");
 
 //MATERIALES
 
-router.post("/materiales/nuevoMaterial", async (req, res) => {
+/* router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   const dir = req.body;
 
@@ -44,7 +44,43 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
   }
 
   res.status(200).send();
+}); */
+
+
+
+
+router.post("/materiales/nuevoMaterial", async (req, res) => {
+  console.log("Nuevo producto: req.body", req.body);
+  const dir = req.body;
+
+  // Primero, crea el nuevo producto en Catalogo_material
+  const nuevoMaterial = await Catalogo_material.create({
+    descripcion: dir.descripcion,
+    medida: dir.medida,
+  });
+
+  // Luego, verifica si la unidad de medida ya existe en Catalogo_unidad_medida
+  const unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
+    where: { unidadMedida: dir.unidadMedida },
+  });
+
+  if (unidadMedidaExistente) {
+    // Si la unidad de medida existe, asóciala al nuevo material
+    nuevoMaterial.setCatalogo_unidad_medida(unidadMedidaExistente);
+  } else {
+    // Si la unidad de medida no existe, primero créala y luego asóciala al nuevo material
+    const nuevaUnidadMedida = await Catalogo_unidad_medida.create({
+      unidadMedida: dir.unidadMedida,
+    });
+    
+    nuevoMaterial.setCatalogo_unidad_medida(nuevaUnidadMedida);
+  }
+
+  res.status(200).send();
 });
+
+
+
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
 
