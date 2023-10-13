@@ -19,7 +19,7 @@ module.exports = (sequelize, dataTypes) => {
 
   Catalogo_unidad_medida.associate = function (models) {
     Catalogo_unidad_medida.belongsTo(models.Catalogo_material, {
-      as: "catalogo_material", 
+      as: "catalogo_material",
       foreignKey: "id",
     });
   };
