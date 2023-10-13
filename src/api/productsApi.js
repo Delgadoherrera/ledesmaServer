@@ -39,7 +39,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
     await Catalogo_materiales.create({
       descripcion: dir.descripcion,
       medida: dir.medida,
-      unidadMedida: nuevaUnidadMedida.id, // Asociación al ID de la nueva unidad de medida
+      unidadMedida: nuevaUnidadMedida.id, 
     });
   }
 
@@ -52,7 +52,7 @@ router.get("/materiales/listarTodos", (req, res) => {
     include: [
       {
         model: Catalogo_unidad_medida,
-        as: "unidadMedida", // Nombre de la relación en el modelo Catalogo_material
+        as: "unidadMedida",
       },
     ],
   })
@@ -90,7 +90,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
 });
 
 // COMPRAS
-router.post("/materiales/comprar/:id", (req, res) => {
+/* router.post("/materiales/comprar/:id", (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   console.log("paramId", req.params.id);
   const dir = req.body.data;
@@ -103,13 +103,49 @@ router.post("/materiales/comprar/:id", (req, res) => {
   });
   res.status(200).send();
 });
+ */
+
+router.post("/materiales/comprar/:id", async (req, res) => {
+  try {
+    console.log("Nuevo producto: req.body", req.body);
+    console.log("paramId", req.params.id);
+    const dir = req.body.data;
+    
+    // Acceder a la unidad de medida y la medida desde req.body
+    const unidadMedida = req.body.unidadMedida;
+    const medida = req.body.medida;
+    
+    // Crear una nueva compra
+    const nuevaCompra = await Compra_materiales.create({
+      idMaterial: req.params.id,
+      fechaCompra: fecha, // Asegúrate de que 'fecha' esté definido antes
+      precioPesos: dir.precioPesos,
+      precioDolar: dir.precioDolar,
+      unidadMedida: unidadMedida,
+      medida: medida,
+    });
+    
+    // Crear una nueva cotización
+    const nuevaCotizacion = await Cotizacion.create({
+      idCompra: nuevaCompra.idCompra, // Utiliza el ID de la compra recién creada
+      fechaCotizacion: fecha, // Usa la misma 'fecha' que se usó para la compra
+      conversion: dir.precioDolar, // Usar el valor de precioDolar
+    });
+    
+    res.status(200).send();
+  } catch (error) {
+    console.error("Error al realizar la compra y cotización:", error);
+    res.status(500).send("Error al realizar la compra y cotización");
+  }
+});
+
 
 router.get("/compras/listarTodas", (req, res) => {
   Compra_materiales.findAll({
     include: [
       {
         model: Catalogo_materiales,
-        as: "catalogo_material", // Alias para la relación
+        as: "catalogo_material",
       },
     ],
   })
