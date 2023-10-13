@@ -20,5 +20,9 @@ module.exports = (sequelize, dataTypes) => {
   };
   const Catalogo_material = sequelize.define(alias, cols, config);
 
+  Catalogo_material.belongsTo(models.Catalogo_unidad_medida, {
+    as: "unidadMedida",
+    foreignKey: "unidadMedida",
+  });
   return Catalogo_material;
 };
