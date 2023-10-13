@@ -43,43 +43,18 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   const dir = req.body;
 
-  // Primero, verifica si la unidad de medida ya existe en Catalogo_unidad_medida
-  const unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
-    where: { unidadMedida: dir.unidadMedida },
-  });
-
-  if (unidadMedidaExistente) {
-    // Si la unidad de medida existe, crea el nuevo producto en Catalogo_material
-    await Catalogo_materiales.create({
-      descripcion: dir.descripcion,
-      medida: dir.medida,
-      unidadMedida: dir.unidadMedida, // Asociación al nombre de la unidad de medida
-    });
-  } else {
-    // Si la unidad de medida no existe, primero créala y luego crea el producto
-    const nuevaUnidadMedida = await Catalogo_unidad_medida.create({
-      unidadMedida: dir.unidadMedida,
-    });
-
-    await Catalogo_materiales.create({
-      descripcion: dir.descripcion,
-      medida: dir.medida,
-      unidadMedida: dir.unidadMedida, // Asociación al nombre de la unidad de medida
-    });
-  }
-
   res.status(200).send();
 });
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
 
   Catalogo_materiales.findAll({
-    include: [
+    /* include: [
       {
         model: Catalogo_unidad_medida,
         as: "id", // Utiliza el alias correcto
       },
-    ],
+    ], */
   })
     .then(function (materiales) {
       return res.status(200).send(materiales);

@@ -16,11 +16,5 @@ module.exports = (sequelize, dataTypes) => {
   };
   const Catalogo_unidad_medida = sequelize.define(alias, cols, config);
 
-  Catalogo_unidad_medida.associate = function (models) {
-    Catalogo_unidad_medida.hasMany(models.Catalogo_material, {
-      as: "catalogo_materiales", // Alias para la relación
-      foreignKey: "id", // La columna correcta que relaciona unidades de medida con materiales
-    });
-  };
   return Catalogo_unidad_medida;  
 };
