@@ -15,6 +15,9 @@ module.exports = (sequelize, dataTypes) => {
     precioPesos: {
       type: dataTypes.DECIMAL,
     },
+    medida: {
+      type: dataTypes.STRING,
+    },
   };
 
   let config = {
