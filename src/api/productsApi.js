@@ -14,26 +14,27 @@ const fecha = nowDate.toLocaleDateString("en-ZA");
 
 //MATERIALES
 
-router.post("/materiales/nuevoMaterial", (req, res) => {
+router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   const dir = req.body;
 
-  Catalogo_materiales.create({
+  // Primero, crea el nuevo producto en Catalogo_material
+  const nuevoProducto = await Catalogo_material.create({
     descripcion: dir.descripcion,
     medida: dir.medida,
-    unidadMedida: unidadMedidaEncontrada.id, // Asocia con el id de la unidad de medida
-  })
-    .then((nuevoMaterial) => {
-      res.status(200).send(nuevoMaterial);
-    })
-    .catch((error) => {
-      console.log("Error al crear nuevo material: " + error);
-      res.status(500).send("Error al crear nuevo material");
-    })
-    .catch((error) => {
-      console.log("Error al buscar unidad de medida: " + error);
-      res.status(500).send("Error al buscar unidad de medida");
-    });
+  });
+
+  // Luego, busca el registro correspondiente en Catalogo_unidad_medida
+  const unidadMedida = await Catalogo_unidad_medida.findOne({
+    where: { unidadMedida: dir.unidadMedida },
+  });
+
+  // Si encuentras el registro en Catalogo_unidad_medida, establece la relación
+  if (unidadMedida) {
+    await nuevoProducto.setUnidadMedida(unidadMedida);
+  }
+
+  res.status(200).send();
 });
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("listando productos");
