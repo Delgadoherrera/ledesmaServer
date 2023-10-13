@@ -19,11 +19,10 @@ module.exports = (sequelize, dataTypes) => {
   };
   const Cotizacion = sequelize.define(alias, cols, config);
 
-
   Cotizacion.associate = function (models) {
-    Cotizacion.belongsTo(models.Catalogo_material, {
-      as: "catalogo_material",
-      foreignKey: "idMaterial",
+    Cotizacion.belongsTo(models.Compra_material, {
+      as: "compra_material",
+      foreignKey: "idCompra",
     });
   };
   return Cotizacion;

@@ -12,9 +12,6 @@ module.exports = (sequelize, dataTypes) => {
     fechaCompra: {
       type: dataTypes.DATE,
     },
-    precioDolar: {
-      type: dataTypes.DECIMAL,
-    },
     precioPesos: {
       type: dataTypes.DECIMAL,
     },
