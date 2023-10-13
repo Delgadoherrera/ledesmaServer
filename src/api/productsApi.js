@@ -39,7 +39,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
     await Catalogo_materiales.create({
       descripcion: dir.descripcion,
       medida: dir.medida,
-      unidadMedida: nuevaUnidadMedida.id, 
+      unidadMedida: nuevaUnidadMedida.id,
     });
   }
 
@@ -99,7 +99,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
     idMaterial: req.params.id,
     fechaCompra: fecha,
     precioPesos: dir.precioPesos,
-    precioDolar: dir.precioDolar,
+    conversion: dir.conversion,
   });
   res.status(200).send();
 });
@@ -111,34 +111,33 @@ router.post("/materiales/comprar/:id", async (req, res) => {
     console.log("paramId", req.params.id);
     const dir = req.body.data;
     console.log("DIR", dir);
-    
+
     // Acceder a la unidad de medida y la medida desde req.body
     const unidadMedida = req.body.unidadMedida;
     const medida = req.body.medida;
-    
+
     // Crear una nueva compra
     const nuevaCompra = await Compra_materiales.create({
       idMaterial: req.params.id,
       fechaCompra: fecha, // Asegúrate de que 'fecha' esté definido antes
       precioPesos: dir.precioPesos,
-      precioDolar: dir.precioDolar,
+      conversion: dir.conversion,
       unidadMedida: unidadMedida,
       medida: medida,
     });
-    
+
     // Crear una nueva cotización y asignar 'idCompra' correctamente
     const nuevaCotizacion = await Cotizacion.create({
       fechaCotizacion: fecha, // Usa la misma 'fecha' que se usó para la compra
-      conversion: dir.precioDolar, // Usar el valor de precioDolar
+      conversion: dir.conversion, // Usar el valor de conversion
     });
-    
+
     res.status(200).send("Compra y cotización creadas con éxito");
   } catch (error) {
     console.error("Error al realizar la compra y cotización:", error);
     res.status(500).send("Error al realizar la compra y cotización");
   }
 });
-
 
 router.get("/compras/listarTodas", (req, res) => {
   Compra_materiales.findAll({
