@@ -17,19 +17,22 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   const dir = req.body;
 
-  // Primero, verifica si la unidad de medida ya existe en Catalogo_material
-  const unidadMedidaExistente = await Catalogo_materiales.findOne({
-    where: { unidadMedida: dir.unidadMedida },
+  // Corrige la consulta para buscar en función de la descripción y la medida en lugar de "unidadMedida"
+  const materialExistente = await Catalogo_material.findOne({
+    where: {
+      descripcion: dir.descripcion,
+      medida: dir.medida,
+    },
   });
 
-  if (unidadMedidaExistente) {
-    // Si la unidad de medida existe, crea el nuevo producto en Catalogo_unidad_medida
-    await Catalogo_unidad_medida.create({
-      unidadMedida: dir.unidadMedida,
-    });
+  if (materialExistente) {
+    // Si el material ya existe, puedes manejarlo aquí
+    console.log("El material ya existe en la base de datos.");
   } else {
-    // Si la unidad de medida no existe, primero créala en Catalogo_material
+    // Si el material no existe, créalo
     await Catalogo_material.create({
+      descripcion: dir.descripcion,
+      medida: dir.medida,
       unidadMedida: dir.unidadMedida,
     });
   }
