@@ -13,8 +13,30 @@ const nowDate = new Date(objetoFecha);
 const fecha = nowDate.toLocaleDateString("en-ZA");
 
 //MATERIALES
-
 router.post("/materiales/nuevoMaterial", async (req, res) => {
+  console.log("Nuevo producto: req.body", req.body);
+  const dir = req.body;
+
+  // Primero, verifica si la unidad de medida ya existe en Catalogo_material
+  const unidadMedidaExistente = await Catalogo_material.findOne({
+    where: { unidadMedida: dir.unidadMedida },
+  });
+
+  if (unidadMedidaExistente) {
+    // Si la unidad de medida existe, crea el nuevo producto en Catalogo_unidad_medida
+    await Catalogo_unidad_medida.create({
+      unidadMedida: dir.unidadMedida,
+    });
+  } else {
+    // Si la unidad de medida no existe, primero créala en Catalogo_material
+    await Catalogo_material.create({
+      unidadMedida: dir.unidadMedida,
+    });
+  }
+
+  res.status(200).send();
+});
+/* router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
   const dir = req.body;
 
@@ -45,7 +67,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
 
   res.status(200).send();
 });
-
+ */
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
 
