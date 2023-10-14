@@ -200,6 +200,10 @@ router.get("/compras/listarTodas", (req, res) => {
         model: Cotizacion,
         as: "cotizacion",
       },
+      {
+        model: Catalogo_unidad_medida,
+        as: "medidaId",
+      },
     ],
   })
     .then(function (compras) {
