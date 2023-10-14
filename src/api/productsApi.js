@@ -121,7 +121,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
   // Primero, obtén el id de la unidad de medida desde la tabla catalogo_unidad_medida
   const unidadMedida = await Catalogo_unidad_medida.findOne({
     where: {
-      nombre: req.body.data.unidadMedida, // Asumiendo que "unidadMedida" es el nombre de la unidad
+      unidadMedida: req.body.data.unidadMedida, // Asumiendo que "unidadMedida" es el nombre de la unidad
     },
   });
 
