@@ -139,7 +139,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
         descripcion: req.body.data.descripcion,
         medida: req.body.data.medida,
         estado: "activo",
-        unidadMedidaId: unidadMedidaExistente.id, // Asigna el nuevo ID de unidad de medida
+        medidaId: unidadMedidaExistente.id, // Asigna el nuevo ID de unidad de medida
       },
       {
         where: { id: req.params.id },
