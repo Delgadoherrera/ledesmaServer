@@ -11,7 +11,35 @@ const Op = Sequelize.Op;
 const objetoFecha = Date.now();
 const nowDate = new Date(objetoFecha);
 const fecha = nowDate.toLocaleDateString("en-ZA");
+router.post("/materiales/nuevoMaterial", async (req, res) => {
+  try {
+    const dir = req.body;
 
+    // Verifica si el material ya existe en la base de datos
+    const materialExistente = await Catalogo_materiales.findOne({
+      where: {
+        descripcion: dir.descripcion,
+        medida: dir.medida,
+      },
+    });
+
+    if (materialExistente) {
+      // Si el material ya existe, puedes manejarlo aquí
+      return res.status(400).send("El material ya existe en la base de datos.");
+    } else {
+      // Si el material no existe, créalo
+      const nuevoMaterial = await Catalogo_materiales.create({
+        descripcion: dir.descripcion,
+        medida: dir.medida,
+      });
+
+      return res.status(201).json(nuevoMaterial);
+    }
+  } catch (error) {
+    console.error("Error al crear un nuevo material:", error);
+    return res.status(500).send("Error al crear un nuevo material");
+  }
+});
 //MATERIALES
 /* router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
