@@ -193,12 +193,12 @@ router.get("/compras/listarTodas", (req, res) => {
   Compra_materiales.findAll({
     include: [
       {
-        model: Catalogo_materiales,
+        model: Catalogo_material,
         as: "catalogo_material",
       },
       {
-        model: Cotizacion, // Incluye el modelo Cotizacion
-        as: "idCompra", // Asigna un alias para la asociación de Cotizacion
+        model: Cotizacion,
+        as: "cotizacion",
       },
     ],
   })
