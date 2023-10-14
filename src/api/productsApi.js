@@ -154,6 +154,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
       conversion: dir.conversion,
       unidadMedida: unidadMedida,
       medida: medida,
+      medidaId:dir.medidaId
     });
 
     // Crear una nueva cotización y asignar 'idCompra' correctamente
