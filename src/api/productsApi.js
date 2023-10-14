@@ -115,39 +115,40 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 });
 
 router.post("/materiales/editar/:id", async (req, res) => {
-  console.log("req.body", req.body);
   try {
+    const dir = req.body.data;
+
+    // Busca el material existente que deseas editar
+    const materialExistente = await Catalogo_materiales.findByPk(req.params.id);
+
+    if (!materialExistente) {
+      return res.status(404).json({ message: "Material no encontrado" });
+    }
+
+    // Verifica si la unidad de medida ya existe en la base de datos
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
-        unidadMedida: req.body.data.unidadMedida,
+        unidadMedida: dir.unidadMedida,
       },
     });
 
     if (!unidadMedidaExistente) {
       // Si la unidad de medida no existe, créala
       unidadMedidaExistente = await Catalogo_unidad_medida.create({
-        unidadMedida: req.body.data.unidadMedida,
+        unidadMedida: dir.unidadMedida,
       });
     }
 
-    // Crea el nuevo material con referencia a la unidad de medida
-    const nuevoMaterial = await Catalogo_materiales.update(
-      {
-        descripcion: req.body.data.descripcion,
-        medida: req.body.data.medida,
-        estado: "activo",
-      },
-      {
-        where: {
-          id: req.params.id,
-        },
-      }
-    );
+    // Actualiza el material con la nueva descripción y unidad de medida
+    await materialExistente.update({
+      descripcion: dir.descripcion,
+      medida: dir.medida,
+    });
 
-    return res.status(201).json(nuevoMaterial);
+    return res.status(200).json({ message: "Material actualizado" });
   } catch (error) {
-    console.error("Error al crear un nuevo material:", error);
-    return res.status(500).send("Error al crear un nuevo material");
+    console.error("Error al actualizar el material:", error);
+    return res.status(500).send("Error al actualizar el material");
   }
 });
 // COMPRAS
