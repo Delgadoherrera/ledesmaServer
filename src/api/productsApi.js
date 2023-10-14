@@ -115,8 +115,7 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 });
 
 router.post("/materiales/editar/:id", async (req, res) => {
-
-  console.log('EDITAR MATERIAL ID:', req.params.id)
+  console.log("EDITAR MATERIAL ID:", req.params.id);
   console.log("req.body", req.body);
   try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
@@ -130,12 +129,13 @@ router.post("/materiales/editar/:id", async (req, res) => {
         unidadMedida: req.body.data.unidadMedida,
       });
     }
-console.log('unidadMedidaExistente',unidadMedidaExistente)
-    // Actualiza el material con el nuevo valor de "medida"
-    const nuevoMaterial = await Catalogo_materiales.update(
+    console.log("unidadMedidaExistente", unidadMedidaExistente);
+
+    // Actualiza el material con el nuevo valor de "unidadMedida" (no "medida")
+    const nuevoMaterial = await Catalogo_material.update(
       {
         descripcion: req.body.data.descripcion,
-        medida: req.body.data.medida, // Actualiza el campo "medida" en lugar de "unidadMedida"
+        unidadMedida: req.body.data.unidadMedida, // Actualiza el campo "unidadMedida"
         estado: "activo",
       },
       {
@@ -144,11 +144,12 @@ console.log('unidadMedidaExistente',unidadMedidaExistente)
         },
       }
     );
-console.log('nuevoMaterial',nuevoMaterial)
+    console.log("nuevoMaterial", nuevoMaterial);
+
     return res.status(201).json(nuevoMaterial);
   } catch (error) {
-    console.error("Error al crear un nuevo material:", error);
-    return res.status(500).send("Error al crear un nuevo material");
+    console.error("Error al actualizar el material:", error);
+    return res.status(500).send("Error al actualizar el material");
   }
 });
 // COMPRAS
