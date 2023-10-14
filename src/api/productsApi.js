@@ -152,15 +152,17 @@ router.post("/materiales/comprar/:id", async (req, res) => {
       fechaCompra: fecha, // Asegúrate de que 'fecha' esté definido antes
       precioPesos: dir.precioPesos,
       conversion: dir.conversion,
-      unidadMedida: unidadMedida,
-      medida: medida,
-      medidaId:dir.medidaId
+      medidaId: dir.medidaId // Proporciona el valor de medidaId
     });
 
-    // Crear una nueva cotización y asignar 'idCompra' correctamente
+    // Obten el ID de la compra recién creada
+    const compraId = nuevaCompra.idCompra;
+
+    // Crear una nueva cotización y asignar 'compraId' correctamente
     const nuevaCotizacion = await Cotizacion.create({
       fechaCotizacion: fecha, // Usa la misma 'fecha' que se usó para la compra
       conversion: dir.conversion, // Usar el valor de conversion
+      compraId: compraId // Asocia la cotización con la compra
     });
 
     res.status(200).send("Compra y cotización creadas con éxito");
