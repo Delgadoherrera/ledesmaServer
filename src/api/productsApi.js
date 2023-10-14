@@ -96,11 +96,16 @@ router.get("/materiales/listarTodos", (req, res) => {
     });
 });
 router.post("/materiales/borrarMaterial/:id", (req, res) => {
-  Catalogo_materiales.destroy({
+  Catalogo_materiales.update(
+    {
+      estado: 'hide',
+    },
+    {
     where: {
       id: req.params.id,
     },
-  });
+  }
+  );
 
   res.status(200).send("success");
 });
