@@ -19,6 +19,9 @@ module.exports = (sequelize, dataTypes) => {
       // Cambié "medida" por "medidaId" para ser una referencia a la tabla de unidades de medida
       type: dataTypes.INTEGER,
     },
+    medida: {
+      type: dataTypes.STRING,
+    },
   };
 
   let config = {

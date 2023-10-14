@@ -153,6 +153,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
       precioPesos: dir.precioPesos,
       conversion: dir.conversion,
       medidaId: dir.medidaId, // Proporciona el valor de medidaId
+      medida: dir.medida,
     });
 
     // Obten el ID de la compra recién creada
