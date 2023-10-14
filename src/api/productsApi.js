@@ -44,6 +44,8 @@ const fecha = nowDate.toLocaleDateString("en-ZA");
 }); */
 // Ruta para dar de alta un nuevo material con su unidad de medida
 router.post("/materiales/nuevoMaterial", async (req, res) => {
+
+  console.log('req.body',req.body)
   try {
     const { descripcion, medida, estado, unidadMedidaId, nuevaUnidadMedida } = req.body;
 
