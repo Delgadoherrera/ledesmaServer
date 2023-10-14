@@ -120,20 +120,20 @@ router.post("/materiales/editar/:id", async (req, res) => {
 
   let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
     where: {
-      unidadMedida: dir.unidadMedida,
+      unidadMedida: req.body.data.unidadMedida,
     },
   });
   if (!unidadMedidaExistente) {
     // Si la unidad de medida no existe, créala
     unidadMedidaExistente = await Catalogo_unidad_medida.create({
-      unidadMedida: dir.unidadMedida,
+      unidadMedida: req.body.data.unidadMedida,
     });
   }
 
   const nuevoMaterial = await Catalogo_materiales.update(
     {
-      descripcion: dir.descripcion,
-      medida: dir.medida,
+      descripcion: req.body.data.descripcion,
+      medida: req.body.data.medida,
       estado: "activo",
       unidadMedidaId: unidadMedidaExistente.id, // Usa el ID de la unidad de medida creada
     },
