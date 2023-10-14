@@ -15,7 +15,8 @@ module.exports = (sequelize, dataTypes) => {
     precioPesos: {
       type: dataTypes.DECIMAL(8, 2), // Especificación de precisión y escala
     },
-    medidaId: { // Cambié "medida" por "medidaId" para ser una referencia a la tabla de unidades de medida
+    medidaId: {
+      // Cambié "medida" por "medidaId" para ser una referencia a la tabla de unidades de medida
       type: dataTypes.INTEGER,
     },
   };
@@ -31,6 +32,12 @@ module.exports = (sequelize, dataTypes) => {
     Compra_material.belongsTo(models.Catalogo_unidad_medida, {
       as: "unidadMedida",
       foreignKey: "medidaId",
+    });
+  };
+  Compra_material.associate = function (models) {
+    Compra_material.belongsTo(models.Cotizacion, {
+      as: "cotizacion",
+      foreignKey: "idCotizacion",
     });
   };
 
