@@ -116,32 +116,30 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 });
 
 router.post("/materiales/editar/:id", async (req, res) => {
-  console.log("Editar material:", req.body);
+  const { descripcion, medida, unidadMedida } = req.body.data;
 
-  // Primero, obtén el id de la unidad de medida desde la tabla catalogo_unidad_medida
-  const unidadMedida = await Catalogo_unidad_medida.findOne({
-    where: {
-      unidadMedida: req.body.data.unidadMedida, // Asumiendo que "unidadMedida" es el nombre de la unidad
-    },
-  });
+  try {
+    const material = await Catalogo_materiales.findByPk(req.params.id, {
+      include: Catalogo_unidad_medida, // Incluye la relación con unidad de medida
+    });
 
-  if (unidadMedida) {
-    // Si se encontró la unidad de medida, actualiza los datos en la tabla catalogo_materiales
-    Catalogo_materiales.update(
-      {
-        descripcion: req.body.data.descripcion,
-        medida: req.body.data.medida,
-        unidadMedidaId: unidadMedida.id, // Utiliza el id de la unidad de medida
-      },
-      {
-        where: { id: req.params.id },
+    if (material) {
+      material.descripcion = descripcion;
+      material.medida = medida;
+
+      if (material.Catalogo_unidad_medida) {
+        material.Catalogo_unidad_medida.unidadMedida = unidadMedida;
+        await material.Catalogo_unidad_medida.save(); // Actualiza unidadMedida en catalogo_unidad_medida
       }
-    );
 
-    res.status(200).send("success");
-  } else {
-    // Manejar el caso en el que no se encuentra la unidad de medida
-    res.status(404).send("Unidad de medida no encontrada");
+      await material.save(); // Actualiza los campos en catalogo_materiales
+      res.status(200).send("success");
+    } else {
+      res.status(404).send("Material no encontrado");
+    }
+  } catch (error) {
+    console.error("Error al actualizar material:", error);
+    res.status(500).send("Error interno del servidor");
   }
 });
 
