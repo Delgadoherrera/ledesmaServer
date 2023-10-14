@@ -33,9 +33,7 @@ module.exports = (sequelize, dataTypes) => {
       as: "catalogo_material",
       foreignKey: "idMaterial",
     });
-  };
 
-  Compra_material.associate = function (models) {
     Compra_material.belongsTo(models.Catalogo_unidad_medida, {
       as: "unidadMedida",
       foreignKey: "medidaId",
@@ -44,11 +42,6 @@ module.exports = (sequelize, dataTypes) => {
     Compra_material.belongsTo(models.Cotizacion, {
       as: "cotizacion",
       foreignKey: "compraId",
-    });
-
-    Compra_material.belongsTo(models.Catalogo_material, {
-      as: "catalogo_material",
-      foreignKey: "idMaterial",
     });
   };
 
