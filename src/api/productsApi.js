@@ -117,6 +117,7 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 router.post("/materiales/editar/:id", async (req, res) => {
   try {
     const dir = req.body.data;
+    console.log('dir',dir)
 
     // Busca el material existente que deseas editar
     const materialExistente = await Catalogo_materiales.findByPk(req.params.id);
