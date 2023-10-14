@@ -45,14 +45,26 @@ const fecha = nowDate.toLocaleDateString("en-ZA");
 // Ruta para dar de alta un nuevo material con su unidad de medida
 router.post("/materiales/nuevoMaterial", async (req, res) => {
   try {
-    const { descripcion, medida, estado, unidadMedidaId } = req.body;
+    const { descripcion, medida, estado, unidadMedidaId, nuevaUnidadMedida } = req.body;
 
-    // Primero, crea el material en la tabla 'catalogo_material'
+    let unidadMedida;
+
+    // Verificar si se proporcionó un ID de unidad de medida existente
+    if (unidadMedidaId) {
+      unidadMedida = await db.Catalogo_unidad_medida.findByPk(unidadMedidaId);
+    } else {
+      // Si no se proporciona un ID de unidad de medida, crea una nueva
+      unidadMedida = await db.Catalogo_unidad_medida.create({
+        unidadMedida: nuevaUnidadMedida, // Debes proporcionar la nueva unidad de medida
+      });
+    }
+
+    // Crea el material y asócialo con la unidad de medida
     const nuevoMaterial = await db.Catalogo_material.create({
       descripcion,
       medida,
       estado,
-      unidadMedidaId, // Asocia el material con una unidad de medida existente por su ID
+      unidadMedidaId: unidadMedida.id, // Asocia el material con la unidad de medida existente
     });
 
     res.status(201).json({ message: 'Material creado con éxito', material: nuevoMaterial });
