@@ -116,33 +116,44 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 });
 
 router.post("/materiales/editar/:id", async (req, res) => {
-  console.log("editar material:", req.body);
-
-  let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
-    where: {
-      unidadMedida: req.body.data.unidadMedida,
-    },
-  });
-  if (!unidadMedidaExistente) {
-    // Si la unidad de medida no existe, créala
-    unidadMedidaExistente = await Catalogo_unidad_medida.create({
-      unidadMedida: req.body.data.unidadMedida,
+  try {
+    // Busca la unidad de medida existente
+    let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
+      where: {
+        unidadMedida: req.body.data.unidadMedida,
+      },
     });
-  }
 
-  const nuevoMaterial = await Catalogo_materiales.update(
-    {
-      descripcion: req.body.data.descripcion,
-      medida: req.body.data.medida,
-      estado: "activo",
-      unidadMedidaId: unidadMedidaExistente.id, // Usa el ID de la unidad de medida creada
-    },
-    {
-      where: { id: req.params.id },
+    if (!unidadMedidaExistente) {
+      // Si la unidad de medida no existe, créala
+      unidadMedidaExistente = await Catalogo_unidad_medida.create({
+        unidadMedida: req.body.data.unidadMedida,
+      });
     }
-  );
-  res.status(200).send("success");
+
+    // Actualiza el material con el ID de la unidad de medida
+    const nuevoMaterial = await Catalogo_materiales.update(
+      {
+        descripcion: req.body.data.descripcion,
+        medida: req.body.data.medida,
+        estado: "activo",
+        unidadMedidaId: unidadMedidaExistente.id,
+      },
+      {
+        where: { id: req.params.id },
+      }
+    );
+
+    // El ID de la unidad de medida está disponible en unidadMedidaExistente.id
+    const unidadMedidaId = unidadMedidaExistente.id;
+
+    res.status(200).json({ message: "success", unidadMedidaId });
+  } catch (error) {
+    console.error("Error al actualizar material:", error);
+    res.status(500).send("Error en la actualización");
+  }
 });
+
 
 // COMPRAS
 /* router.post("/materiales/comprar/:id", (req, res) => {
