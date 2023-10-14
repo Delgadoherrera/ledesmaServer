@@ -117,6 +117,8 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 router.post("/materiales/editar/:id", async (req, res) => {
   console.log("EDITAR MATERIAL ID:", req.params.id);
   console.log("req.body", req.body);
+
+ 
   try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
@@ -131,11 +133,10 @@ router.post("/materiales/editar/:id", async (req, res) => {
     }
     console.log("unidadMedidaExistente", unidadMedidaExistente);
 
-    // Actualiza el material con el nuevo valor de "unidadMedida" (no "medida")
     const nuevoMaterial = await Catalogo_materiales.update(
       {
         descripcion: req.body.data.descripcion,
-        unidadMedida: req.body.data.unidadMedida, // Actualiza el campo "unidadMedida"
+        unidadMedida: req.body.data.unidadMedida,
         estado: "activo",
       },
       {
