@@ -115,15 +115,15 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 });
 
 router.post("/materiales/editar/:id", async (req, res) => {
-  console.log('req.body',req.body)
+  console.log('req.body', req.body);
   try {
     // Busca la unidad de medida existente
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
         unidadMedida: req.body.data.unidadMedida,
       },
-    })
-    console.log('unidadMedidaExistente',unidadMedidaExistente)
+    });
+    console.log('unidadMedidaExistente', unidadMedidaExistente);
 
     if (!unidadMedidaExistente) {
       // Si la unidad de medida no existe, créala
@@ -131,22 +131,20 @@ router.post("/materiales/editar/:id", async (req, res) => {
         unidadMedida: req.body.data.unidadMedida,
       });
     }
-    console.log('unidadMedidaExistente',unidadMedidaExistente)
+    console.log('unidadMedidaExistente', unidadMedidaExistente);
 
-    // Actualiza el material con el ID de la unidad de medida
+    // Actualiza el material con el nuevo ID de la unidad de medida
     const nuevoMaterial = await Catalogo_materiales.update(
       {
         descripcion: req.body.data.descripcion,
         medida: req.body.data.medida,
         estado: "activo",
+        medidaId: unidadMedidaExistente.id, // Asigna el nuevo ID de unidad de medida
       },
       {
         where: { id: req.params.id },
       }
     );
-
-    // El ID de la unidad de medida está disponible en unidadMedidaExistente.id
-    const unidadMedidaId = unidadMedidaExistente.id;
 
     res.status(200).json({ message: "success", nuevoMaterial });
   } catch (error) {
@@ -154,6 +152,11 @@ router.post("/materiales/editar/:id", async (req, res) => {
     res.status(500).send("Error en la actualización");
   }
 });
+Asegúrate de asignar el nuevo unidadMedidaId al material en la llamada a Catalogo_materiales.update. Con esta corrección, el material se actualizará con el nuevo ID de unidad de medida.
+
+
+
+
 
 
 // COMPRAS
