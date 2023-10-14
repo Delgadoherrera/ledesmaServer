@@ -122,7 +122,8 @@ router.post("/materiales/editar/:id", async (req, res) => {
       where: {
         unidadMedida: req.body.data.unidadMedida,
       },
-    });
+    })
+    console.log('unidadMedidaExistente',unidadMedidaExistente)
 
     if (!unidadMedidaExistente) {
       // Si la unidad de medida no existe, créala
@@ -130,6 +131,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
         unidadMedida: req.body.data.unidadMedida,
       });
     }
+    console.log('unidadMedidaExistente',unidadMedidaExistente)
 
     // Actualiza el material con el ID de la unidad de medida
     const nuevoMaterial = await Catalogo_materiales.update(
