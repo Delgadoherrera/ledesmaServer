@@ -193,7 +193,7 @@ router.get("/compras/listarTodas", (req, res) => {
   Compra_materiales.findAll({
     include: [
       {
-        model: Catalogo_material,
+        model: Catalogo_materiales,
         as: "catalogo_material",
       },
       {
