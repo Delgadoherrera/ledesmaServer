@@ -16,5 +16,5 @@ module.exports = (sequelize, dataTypes) => {
   };
   const Catalogo_unidad_medida = sequelize.define(alias, cols, config);
 
-  return Catalogo_unidad_medida;  
+  return Catalogo_unidad_medida;
 };

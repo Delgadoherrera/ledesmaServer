@@ -10,7 +10,10 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.DATE,
     },
     conversion: {
-      type: dataTypes.DECIMAL,
+      type: dataTypes.DECIMAL(8, 2), // Especificación de precisión y escala
+    },
+    compraId: { // Cambié "idCotizacion" por "compraId" para ser una referencia a la tabla de compras
+      type: dataTypes.INTEGER,
     },
   };
   let config = {
@@ -21,9 +24,10 @@ module.exports = (sequelize, dataTypes) => {
 
   Cotizacion.associate = function (models) {
     Cotizacion.belongsTo(models.Compra_material, {
-      as: "compra_material",
-      foreignKey: "idCompra",
+      as: "compraMaterial",
+      foreignKey: "compraId",
     });
   };
+
   return Cotizacion;
 };
