@@ -44,29 +44,16 @@ const fecha = nowDate.toLocaleDateString("en-ZA");
 }); */
 // Ruta para dar de alta un nuevo material con su unidad de medida
 router.post("/materiales/nuevoMaterial", async (req, res) => {
-
-  console.log('req.body',req.body)
+  console.log('req.body', req.body)
   try {
-    const { descripcion, medida, estado, unidadMedidaId, nuevaUnidadMedida } = req.body;
+    const { descripcion, medida, unidadMedida } = req.body;
 
-    let unidadMedida;
-
-    // Verificar si se proporcionó un ID de unidad de medida existente
-    if (unidadMedidaId) {
-      unidadMedida = await db.Catalogo_unidad_medida.findByPk(unidadMedidaId);
-    } else {
-      // Si no se proporciona un ID de unidad de medida, crea una nueva
-      unidadMedida = await db.Catalogo_unidad_medida.create({
-        unidadMedida: nuevaUnidadMedida, // Debes proporcionar la nueva unidad de medida
-      });
-    }
-
-    // Crea el material y asócialo con la unidad de medida
+    // Crea el material y asócialo con la unidad de medida existente
     const nuevoMaterial = await db.Catalogo_material.create({
       descripcion,
       medida,
-      estado,
-      unidadMedidaId: unidadMedida.id, // Asocia el material con la unidad de medida existente
+      estado:"activo",
+      Catalogo_unidad_medidaId: unidadMedida, // Asocia el material con la unidad de medida existente
     });
 
     res.status(201).json({ message: 'Material creado con éxito', material: nuevoMaterial });
@@ -75,7 +62,6 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
     res.status(500).json({ error: 'Hubo un error al crear el material' });
   }
 });
-
 module.exports = router;
 //MATERIALES
 /* router.post("/materiales/nuevoMaterial", async (req, res) => {
