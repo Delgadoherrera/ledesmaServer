@@ -117,7 +117,7 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 router.post("/materiales/editar/:id", async (req, res) => {
   try {
     const dir = req.body.data;
-    console.log('dir',dir)
+    console.log("dir", dir);
 
     // Busca el material existente que deseas editar
     const materialExistente = await Catalogo_materiales.findByPk(req.params.id);
@@ -132,13 +132,14 @@ router.post("/materiales/editar/:id", async (req, res) => {
         unidadMedida: dir.unidadMedida,
       },
     });
-
     if (!unidadMedidaExistente) {
       // Si la unidad de medida no existe, créala
       unidadMedidaExistente = await Catalogo_unidad_medida.create({
         unidadMedida: dir.unidadMedida,
       });
     }
+    console.log("unidadMedidaExistente", unidadMedidaExistente);
+    console.log("materialExistente", materialExistente);
 
     // Actualiza el material con la nueva descripción y unidad de medida
     await materialExistente.update({
