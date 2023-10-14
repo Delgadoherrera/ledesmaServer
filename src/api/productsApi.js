@@ -83,7 +83,7 @@ router.get("/materiales/listarTodos", (req, res) => {
     include: [
       {
         model: Catalogo_unidad_medida,
-        as: "unidadMedida",
+        as: "id",
       },
     ],
   })
