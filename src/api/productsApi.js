@@ -34,7 +34,6 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
       descripcion: dir.descripcion,
       medida: dir.medida,
       estado: "activo",
-      unidadMedidaId: unidadMedidaExistente.id, // Usa el ID de la unidad de medida creada
     });
 
     return res.status(201).json(nuevoMaterial);
@@ -147,7 +146,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
     // El ID de la unidad de medida está disponible en unidadMedidaExistente.id
     const unidadMedidaId = unidadMedidaExistente.id;
 
-    res.status(200).json({ message: "success", unidadMedidaId });
+    res.status(200).json({ message: "success", nuevoMaterial });
   } catch (error) {
     console.error("Error al actualizar material:", error);
     res.status(500).send("Error en la actualización");
