@@ -67,6 +67,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
       descripcion,
       medida,
       estado: "activo",
+      unidadMedidaId:unidadMedidaExistente.id,
       Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
     });
 
