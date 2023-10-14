@@ -114,6 +114,7 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
   res.status(200).send("success");
 });
 router.put("/materiales/editar/:id", async (req, res) => {
+  console.log('editar unidad medida', req.body)
   try {
     const materialId = req.params.id;
     const newData = req.body.data;
@@ -133,7 +134,7 @@ router.put("/materiales/editar/:id", async (req, res) => {
     }
 
     // Actualiza el material con la nueva unidad de medida
-    const material = await Catalogo_material.findByPk(materialId);
+    const material = await Catalogo_materiales.findByPk(materialId);
 
     if (!material) {
       return res.status(404).json({ error: "Material no encontrado" });
