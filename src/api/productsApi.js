@@ -115,53 +115,34 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
   res.status(200).send("success");
 });
 
-/* router.post("/materiales/editar/:id", async (req, res) => {
+router.post("/materiales/editar/:id", async (req, res) => {
   console.log("editar material:", req.body);
-  Catalogo_materiales.update(
+
+  let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
+    where: {
+      unidadMedida: dir.unidadMedida,
+    },
+  });
+  if (!unidadMedidaExistente) {
+    // Si la unidad de medida no existe, créala
+    unidadMedidaExistente = await Catalogo_unidad_medida.create({
+      unidadMedida: dir.unidadMedida,
+    });
+  }
+
+  const nuevoMaterial = await Catalogo_materiales.update(
     {
-      descripcion: req.body.data.descripcion,
-      medida: req.body.data.medida,
+      descripcion: dir.descripcion,
+      medida: dir.medida,
+      estado: "activo",
+      unidadMedidaId: unidadMedidaExistente.id, // Usa el ID de la unidad de medida creada
     },
     {
       where: { id: req.params.id },
     }
   );
   res.status(200).send("success");
-}); */
-router.post("/materiales/editar/:id", async (req, res) => {
-  const materialId = req.params.id;
-  const newData = req.body.data;
-
-  try {
-    // Actualiza los datos en Catalogo_materiales
-    await Catalogo_materiales.update(
-      {
-        descripcion: newData.descripcion,
-        medida: newData.medida,
-        unidadMedidaId: newData.unidadMedidaId, // Asegúrate de que unidadMedidaId coincide con la unidad de medida deseada
-      },
-      {
-        where: { id: materialId },
-      }
-    );
-
-    // Actualiza los datos en Catalogo_unidad_medida
-    await Catalogo_unidad_medida.update(
-      {
-        unidadMedida: newData.unidadMedida, // Actualiza la unidad de medida si es necesario
-      },
-      {
-        where: { id: newData.unidadMedidaId }, // Utiliza la clave primaria de Catalogo_unidad_medida
-      }
-    );
-
-    res.status(200).send("success");
-  } catch (error) {
-    console.error("Error al actualizar material:", error);
-    res.status(500).send("Error en la actualización");
-  }
 });
-
 
 // COMPRAS
 /* router.post("/materiales/comprar/:id", (req, res) => {
