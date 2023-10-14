@@ -33,6 +33,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
     const nuevoMaterial = await Catalogo_materiales.create({
       descripcion: dir.descripcion,
       medida: dir.medida,
+      estado:'activo',
       unidadMedidaId: unidadMedidaExistente.id, // Usa el ID de la unidad de medida creada
     });
 
@@ -80,6 +81,9 @@ router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
 
   Catalogo_materiales.findAll({
+    where: {
+      estado: "activo", // Agrega esta condición para filtrar solo los materiales activos
+    },
     include: [
       {
         model: Catalogo_unidad_medida,
@@ -95,16 +99,17 @@ router.get("/materiales/listarTodos", (req, res) => {
       return res.status(500).send("Error al listar materiales");
     });
 });
+
 router.post("/materiales/borrarMaterial/:id", (req, res) => {
   Catalogo_materiales.update(
     {
-      estado: 'hide',
+      estado: "hide",
     },
     {
-    where: {
-      id: req.params.id,
-    },
-  }
+      where: {
+        id: req.params.id,
+      },
+    }
   );
 
   res.status(200).send("success");
