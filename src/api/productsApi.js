@@ -128,7 +128,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
         unidadMedida: req.body.data.unidadMedida,
       });
     }
-
+console.log('unidadMedidaExistente',unidadMedidaExistente)
     // Actualiza el material con el nuevo valor de "medida"
     const nuevoMaterial = await Catalogo_materiales.update(
       {
@@ -142,7 +142,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
         },
       }
     );
-
+console.log('nuevoMaterial',nuevoMaterial)
     return res.status(201).json(nuevoMaterial);
   } catch (error) {
     console.error("Error al crear un nuevo material:", error);
