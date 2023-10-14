@@ -202,7 +202,7 @@ router.get("/compras/listarTodas", (req, res) => {
       },
       {
         model: Catalogo_unidad_medida,
-        as: "medidaId",
+        as: "unidadMedida",
       },
     ],
   })
