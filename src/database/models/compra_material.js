@@ -40,7 +40,7 @@ module.exports = (sequelize, dataTypes) => {
       foreignKey: "idCotizacion",
     });
   };
-  Compra_material.belongsTo = function (models) {
+  Compra_material.associate = function (models) {
     Compra_material.belongsTo(models.Catalogo_material, {
       as: "catalogo_material",
       foreignKey: "idMaterial",
