@@ -130,10 +130,15 @@ router.post("/materiales/editar/:id", async (req, res) => {
       });
     }
 
-    await Catalogo_unidad_medida.update({
-      unidadMedida: req.body.data.unidadMedida,
-      id: unidadMedidaExistente.id,
-    });
+    await Catalogo_unidad_medida.update(
+      {
+        unidadMedida: req.body.data.unidadMedida,
+        id: unidadMedidaExistente.id,
+      },
+      {
+        where: { id: unidadMedidaExistente.id },
+      }
+    );
 
     console.log("unidadMedidaExistente", unidadMedidaExistente);
 
