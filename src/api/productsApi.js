@@ -11,7 +11,7 @@ const Op = Sequelize.Op;
 const objetoFecha = Date.now();
 const nowDate = new Date(objetoFecha);
 const fecha = nowDate.toLocaleDateString("en-ZA");
-router.post("/materiales/nuevoMaterial", async (req, res) => {
+/* router.post("/materiales/nuevoMaterial", async (req, res) => {
   try {
     const dir = req.body;
 
@@ -41,8 +41,28 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
     console.error("Error al crear un nuevo material:", error);
     return res.status(500).send("Error al crear un nuevo material");
   }
+}); */
+// Ruta para dar de alta un nuevo material con su unidad de medida
+router.post("/materiales/nuevoMaterial", async (req, res) => {
+  try {
+    const { descripcion, medida, estado, unidadMedidaId } = req.body;
+
+    // Primero, crea el material en la tabla 'catalogo_material'
+    const nuevoMaterial = await db.Catalogo_material.create({
+      descripcion,
+      medida,
+      estado,
+      unidadMedidaId, // Asocia el material con una unidad de medida existente por su ID
+    });
+
+    res.status(201).json({ message: 'Material creado con éxito', material: nuevoMaterial });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Hubo un error al crear el material' });
+  }
 });
 
+module.exports = router;
 //MATERIALES
 /* router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
