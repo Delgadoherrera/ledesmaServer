@@ -198,7 +198,7 @@ router.get("/compras/listarTodas", (req, res) => {
       },
       {
         model: Cotizacion, // Incluye el modelo Cotizacion
-        as: "idCotizacion", // Asigna un alias para la asociación de Cotizacion
+        as: "compraId", // Asigna un alias para la asociación de Cotizacion
       },
     ],
   })
