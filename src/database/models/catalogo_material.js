@@ -27,6 +27,10 @@ module.exports = (sequelize, dataTypes) => {
       foreignKey: "id", // Utiliza el campo correcto para la relación
       as: "unidadMedida", // Usa el alias correcto
     });
+    Catalogo_material.belongsTo(models.Catalogo_unidad_medida, {
+      foreignKey: "medidaId", // Utiliza el campo correcto para la relación
+      as: "unidadMedida", // Usa el alias correcto
+    });
   };
   return Catalogo_material;
 };
