@@ -21,7 +21,7 @@ module.exports = (sequelize, dataTypes) => {
   const Catalogo_material = sequelize.define(alias, cols, config);
   Catalogo_material.associate = function (models) {
     Catalogo_material.belongsTo(models.Catalogo_unidad_medida, {
-      foreignKey: "unidadMedidaP1", // Utiliza el campo correcto para la relación
+      foreignKey: "id", // Utiliza el campo correcto para la relación
       as: "unidadMedida", // Usa el alias correcto
     });
   };
