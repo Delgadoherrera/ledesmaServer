@@ -80,21 +80,21 @@ router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
 
   Catalogo_materiales.findAll({
-    /* include: [
+    include: [
       {
         model: Catalogo_unidad_medida,
-        as: "id", // Utiliza el alias correcto
+        as: "unidadMedida",
       },
-    ], */
+    ],
   })
     .then(function (materiales) {
-      return res.status(200).send(materiales);
+      return res.status(200).json(materiales);
     })
     .catch((error) => {
       console.log("Error: " + error);
+      return res.status(500).send("Error al listar materiales");
     });
 });
-
 router.post("/materiales/borrarMaterial/:id", (req, res) => {
   Catalogo_materiales.destroy({
     where: {
