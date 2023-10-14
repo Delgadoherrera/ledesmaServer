@@ -115,6 +115,8 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 });
 
 router.post("/materiales/editar/:id", async (req, res) => {
+
+  console.log('EDITAR MATERIAL ID:', req.params.id)
   console.log("req.body", req.body);
   try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
