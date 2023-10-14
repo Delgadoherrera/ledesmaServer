@@ -40,6 +40,10 @@ module.exports = (sequelize, dataTypes) => {
       foreignKey: "idCotizacion",
     });
   };
+  Compra_material.belongsTo(db.Catalogo_material, {
+    as: "catalogo_material",
+    foreignKey: "idMaterial", // Asegúrate de que el nombre de la clave foránea sea correcto
+  });
 
   return Compra_material;
 };
