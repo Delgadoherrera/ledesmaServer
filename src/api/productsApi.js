@@ -120,7 +120,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
 
   try {
     const material = await Catalogo_materiales.findByPk(req.params.id, {
-      include: Catalogo_unidad_medida, // Incluye la relación con unidad de medida
+      include: 'unidadMedida', // Incluye la relación con unidad de medida
     });
 
     if (material) {
