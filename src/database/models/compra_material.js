@@ -39,7 +39,7 @@ module.exports = (sequelize, dataTypes) => {
       foreignKey: "medidaId",
     });
 
-    Compra_material.belongsTo(models.Cotizacion, {
+    Compra_material.hasOne(models.Cotizacion, {
       as: "cotizacion",
       foreignKey: "compraId",
     });
