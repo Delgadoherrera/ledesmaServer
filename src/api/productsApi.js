@@ -115,42 +115,38 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 });
 
 router.post("/materiales/editar/:id", async (req, res) => {
+  console.log("req.body", req.body);
   try {
-    const dir = req.body.data;
-    console.log("dir", dir);
-
-    // Busca el material existente que deseas editar
-    const materialExistente = await Catalogo_materiales.findByPk(req.params.id);
-
-    if (!materialExistente) {
-      return res.status(404).json({ message: "Material no encontrado" });
-    }
-
-    // Verifica si la unidad de medida ya existe en la base de datos
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
-        unidadMedida: dir.unidadMedida,
+        unidadMedida: req.body.data.unidadMedida,
       },
     });
+
     if (!unidadMedidaExistente) {
-      // Si la unidad de medida no existe, créala
       unidadMedidaExistente = await Catalogo_unidad_medida.create({
-        unidadMedida: dir.unidadMedida,
+        unidadMedida: req.body.data.unidadMedida,
       });
     }
-    console.log("unidadMedidaExistente", unidadMedidaExistente);
-    console.log("materialExistente", materialExistente);
 
-    // Actualiza el material con la nueva descripción y unidad de medida
-    await materialExistente.update({
-      descripcion: dir.descripcion,
-      medida: dir.medida,
-    });
+    // Actualiza el material con el nuevo valor de "medida"
+    const nuevoMaterial = await Catalogo_materiales.update(
+      {
+        descripcion: req.body.data.descripcion,
+        medida: req.body.data.medida, // Actualiza el campo "medida" en lugar de "unidadMedida"
+        estado: "activo",
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
 
-    return res.status(200).json({ message: "Material actualizado" });
+    return res.status(201).json(nuevoMaterial);
   } catch (error) {
-    console.error("Error al actualizar el material:", error);
-    return res.status(500).send("Error al actualizar el material");
+    console.error("Error al crear un nuevo material:", error);
+    return res.status(500).send("Error al crear un nuevo material");
   }
 });
 // COMPRAS
