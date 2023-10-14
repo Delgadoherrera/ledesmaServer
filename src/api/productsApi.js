@@ -152,8 +152,6 @@ router.post("/materiales/editar/:id", async (req, res) => {
     res.status(500).send("Error en la actualización");
   }
 });
-Asegúrate de asignar el nuevo unidadMedidaId al material en la llamada a Catalogo_materiales.update. Con esta corrección, el material se actualizará con el nuevo ID de unidad de medida.
-
 
 
 
