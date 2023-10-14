@@ -113,8 +113,49 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 
   res.status(200).send("success");
 });
+router.put("/materiales/editar/:id", async (req, res) => {
+  try {
+    const materialId = req.params.id;
+    const newData = req.body.data;
 
-router.post("/materiales/editar/:id", async (req, res) => {
+    // Verifica si la unidad de medida ya existe en la base de datos
+    let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
+      where: {
+        unidadMedida: newData.unidadMedida,
+      },
+    });
+
+    if (!unidadMedidaExistente) {
+      // Si la unidad de medida no existe, créala
+      unidadMedidaExistente = await Catalogo_unidad_medida.create({
+        unidadMedida: newData.unidadMedida,
+      });
+    }
+
+    // Actualiza el material con la nueva unidad de medida
+    const material = await Catalogo_material.findByPk(materialId);
+
+    if (!material) {
+      return res.status(404).json({ error: "Material no encontrado" });
+    }
+
+    // Actualiza los campos del material, incluyendo la unidad de medida
+    await material.update({
+      descripcion: newData.descripcion,
+      medida: newData.medida,
+      estado: "activo",
+    });
+
+    // Aquí no es necesario actualizar la relación de unidad de medida, ya que está configurada a través de la clave primaria "id".
+
+    return res.status(200).json(material);
+  } catch (error) {
+    console.error("Error al actualizar el material:", error);
+    return res.status(500).send("Error al actualizar el material");
+  }
+});
+
+/* router.post("/materiales/editar/:id", async (req, res) => {
   console.log("EDITAR MATERIAL ID:", req.params.id);
   console.log("req.body", req.body);
 
@@ -152,7 +193,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
     console.error("Error al actualizar el material:", error);
     return res.status(500).send("Error al actualizar el material");
   }
-});
+}); */
 // COMPRAS
 /* router.post("/materiales/comprar/:id", (req, res) => {
   console.log("Nuevo producto: req.body", req.body);

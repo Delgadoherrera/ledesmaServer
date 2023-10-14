@@ -23,12 +23,8 @@ module.exports = (sequelize, dataTypes) => {
   };
   const Catalogo_material = sequelize.define(alias, cols, config);
   Catalogo_material.associate = function (models) {
-/*     Catalogo_material.belongsTo(models.Catalogo_unidad_medida, {
-      foreignKey: "id", // Utiliza el campo correcto para la relación
-      as: "unidadMedida", // Usa el alias correcto
-    }); */
     Catalogo_material.belongsTo(models.Catalogo_unidad_medida, {
-      foreignKey: "unidadMedidaId", // Utiliza el campo correcto para la relación (unidadMedidaId)
+      foreignKey: "id", // Utiliza el campo correcto para la relación
       as: "unidadMedida", // Usa el alias correcto
     });
   };
