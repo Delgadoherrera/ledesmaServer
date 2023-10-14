@@ -40,10 +40,11 @@ module.exports = (sequelize, dataTypes) => {
       foreignKey: "idCotizacion",
     });
   };
-  Compra_material.belongsTo(db.Catalogo_material, {
-    as: "catalogo_material",
-    foreignKey: "idMaterial", // Asegúrate de que el nombre de la clave foránea sea correcto
-  });
-
+  Compra_material.belongsTo = function (models) {
+    Compra_material.belongsTo(models.Cotizacion, {
+      as: "catalogo_material",
+      foreignKey: "idMaterial",
+    });
+  };
   return Compra_material;
 };
