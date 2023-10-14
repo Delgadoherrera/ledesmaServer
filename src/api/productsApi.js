@@ -132,7 +132,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
     console.log("unidadMedidaExistente", unidadMedidaExistente);
 
     // Actualiza el material con el nuevo valor de "unidadMedida" (no "medida")
-    const nuevoMaterial = await Catalogo_material.update(
+    const nuevoMaterial = await Catalogo_materiales.update(
       {
         descripcion: req.body.data.descripcion,
         unidadMedida: req.body.data.unidadMedida, // Actualiza el campo "unidadMedida"
