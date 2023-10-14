@@ -130,17 +130,7 @@ router.post("/materiales/editar/:id", async (req, res) => {
       });
     }
 
-    await Catalogo_unidad_medida.update(
-      {
-        unidadMedida: req.body.data.unidadMedida,
-      },
-      {
-        where: { id: unidadMedidaExistente.id },
-      }
-    );
-
-    console.log("unidadMedidaExistente", unidadMedidaExistente);
-
+    // Crea el nuevo material con referencia a la unidad de medida
     const nuevoMaterial = await Catalogo_materiales.update(
       {
         descripcion: req.body.data.descripcion,
@@ -148,17 +138,18 @@ router.post("/materiales/editar/:id", async (req, res) => {
         estado: "activo",
       },
       {
-        where: { id: req.params.id },
+        where: {
+          id: req.params.id,
+        },
       }
     );
 
-    res.status(200).json({ message: "success", nuevoMaterial });
+    return res.status(201).json(nuevoMaterial);
   } catch (error) {
-    console.error("Error al actualizar material:", error);
-    res.status(500).send("Error en la actualización");
+    console.error("Error al crear un nuevo material:", error);
+    return res.status(500).send("Error al crear un nuevo material");
   }
 });
-
 // COMPRAS
 /* router.post("/materiales/comprar/:id", (req, res) => {
   console.log("Nuevo producto: req.body", req.body);
