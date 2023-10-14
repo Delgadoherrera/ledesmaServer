@@ -83,7 +83,7 @@ router.get("/materiales/listarTodos", (req, res) => {
     include: [
       {
         model: Catalogo_unidad_medida,
-        as: "unidadMedida", 
+        as: "unidadMedida",
       },
     ],
   })
@@ -152,7 +152,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
       fechaCompra: fecha, // Asegúrate de que 'fecha' esté definido antes
       precioPesos: dir.precioPesos,
       conversion: dir.conversion,
-      medidaId: dir.medidaId // Proporciona el valor de medidaId
+      medidaId: dir.medidaId, // Proporciona el valor de medidaId
     });
 
     // Obten el ID de la compra recién creada
@@ -162,7 +162,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
     const nuevaCotizacion = await Cotizacion.create({
       fechaCotizacion: fecha, // Usa la misma 'fecha' que se usó para la compra
       conversion: dir.conversion, // Usar el valor de conversion
-      compraId: compraId // Asocia la cotización con la compra
+      compraId: compraId, // Asocia la cotización con la compra
     });
 
     res.status(200).send("Compra y cotización creadas con éxito");
@@ -172,7 +172,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
   }
 });
 
-router.get("/compras/listarTodas", (req, res) => {
+/* router.get("/compras/listarTodas", (req, res) => {
   Compra_materiales.findAll({
     include: [
       {
@@ -188,6 +188,27 @@ router.get("/compras/listarTodas", (req, res) => {
     .catch((error) => {
       console.log("Error al listar compras: " + error);
     });
+}); */
+router.get("/compras/listarTodas", (req, res) => {
+  Compra_materiales.findAll({
+    include: [
+      {
+        model: Catalogo_materiales,
+        as: "catalogo_material",
+      },
+      {
+        model: Cotizacion, // Incluye el modelo Cotizacion
+        as: "cotizacion", // Asigna un alias para la asociación de Cotizacion
+      },
+    ],
+  })
+    .then(function (compras) {
+      console.log("COMPRAS con INCLUDE", compras);
+      return res.status(200).send(compras);
+    })
+    .catch((error) => {
+      console.log("Error al listar compras: " + error);
+      return res.status(500).send("Error al listar compras");
+    });
 });
-
 module.exports = router;
