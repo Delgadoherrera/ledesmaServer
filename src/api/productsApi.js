@@ -114,7 +114,6 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
   res.status(200).send("success");
 });
 router.put("/materiales/editar/:id", async (req, res) => {
-  console.log('editar unidad medida', req.body)
   try {
     const materialId = req.params.id;
     const newData = req.body.data;
@@ -147,15 +146,12 @@ router.put("/materiales/editar/:id", async (req, res) => {
       estado: "activo",
     });
 
-    // Aquí no es necesario actualizar la relación de unidad de medida, ya que está configurada a través de la clave primaria "id".
-
     return res.status(200).json(material);
   } catch (error) {
     console.error("Error al actualizar el material:", error);
     return res.status(500).send("Error al actualizar el material");
   }
 });
-
 /* router.post("/materiales/editar/:id", async (req, res) => {
   console.log("EDITAR MATERIAL ID:", req.params.id);
   console.log("req.body", req.body);
