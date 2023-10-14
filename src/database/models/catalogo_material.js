@@ -12,6 +12,9 @@ module.exports = (sequelize, dataTypes) => {
     medida: {
       type: dataTypes.STRING,
     },
+    estado: {
+      type: dataTypes.STRING,
+    },
   };
 
   let config = {
