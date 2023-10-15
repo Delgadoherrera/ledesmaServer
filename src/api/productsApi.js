@@ -46,7 +46,6 @@ const fecha = nowDate.toLocaleDateString("en-ZA");
 router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("req.body", req.body);
 
-
   try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
@@ -67,10 +66,9 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
       descripcion,
       medida,
       estado: "activo",
-      unidadMedidaId:unidadMedidaExistente.id,
+      unidadMedidaId: unidadMedidaExistente.id,
       Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
     });
-
     res
       .status(201)
       .json({ message: "Material creado con éxito", material: nuevoMaterial });
@@ -151,43 +149,42 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
   res.status(200).send("success");
 });
 router.put("/materiales/editar/:id", async (req, res) => {
-  try {
-    const materialId = req.params.id;
-    const newData = req.body.data;
+  console.log('req.body',req.body)
+  const materialId = req.params.id;
+  const { nuevaUnidadMedida } = req.body;
 
-    // Verifica si la unidad de medida ya existe en la base de datos
+  try {
+    // Verificar si la nueva unidad de medida ya existe
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
-        unidadMedida: newData.unidadMedida,
+        unidadMedida: nuevaUnidadMedida,
       },
     });
 
     if (!unidadMedidaExistente) {
-      // Si la unidad de medida no existe, créala
+      // Si no existe, créala
       unidadMedidaExistente = await Catalogo_unidad_medida.create({
-        unidadMedida: newData.unidadMedida,
+        unidadMedida: nuevaUnidadMedida,
       });
     }
-
-    // Actualiza el material con la nueva unidad de medida
-    const material = await Catalogo_materiales.findByPk(materialId);
+    console.log('unidadMedida Existente',unidadMedidaExistente)
+    // Busca el material por su ID
+    const material = await db.Catalogo_material.findByPk(materialId);
 
     if (!material) {
       return res.status(404).json({ error: "Material no encontrado" });
     }
 
-    // Actualiza los campos del material, incluyendo la unidad de medida
-    await material.update({
-      descripcion: newData.descripcion,
-      medida: newData.medida,
-      estado: "activo",
-    });
+    // Actualiza la unidad de medida asociada al material
+    material.unidadMedidaId = unidadMedidaExistente.id;
+    await material.save();
 
-    return res.status(200).json(material);
+    res.status(200).json({ message: "Unidad de medida actualizada con éxito" });
   } catch (error) {
-    console.error("Error al actualizar el material:", error);
-    return res.status(500).send("Error al actualizar el material");
+    console.error(error);
+    res.status(500).json({ error: "Hubo un error al actualizar la unidad de medida" });
   }
+});
 });
 /* router.post("/materiales/editar/:id", async (req, res) => {
   console.log("EDITAR MATERIAL ID:", req.params.id);
