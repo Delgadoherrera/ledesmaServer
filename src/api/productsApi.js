@@ -13,6 +13,7 @@ const nowDate = new Date(objetoFecha);
 const fecha = nowDate.toLocaleDateString("en-ZA");
 
 router.post("/materiales/nuevoMaterial", async (req, res) => {
+  console.log('nuevo material:', req.body)
   try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
