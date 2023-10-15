@@ -123,7 +123,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
     const dir = req.body.data;
 
     const unidadMedida = req.body.unidadMedida;
-    const medida = req.body.medida;
+    const unidades = req.body.unidades;
 
     const nuevaCompra = await Compra_materiales.create({
       idMaterial: req.params.id,
@@ -131,7 +131,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
       precioPesos: dir.precioPesos,
       conversion: dir.conversion,
       medidaId: dir.medidaId,
-      medida: dir.medida,
+      unidades: dir.unidades,
     });
 
     const compraId = nuevaCompra.idCompra;
