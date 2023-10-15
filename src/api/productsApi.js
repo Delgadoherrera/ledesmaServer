@@ -48,7 +48,6 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
 module.exports = router;
 //MATERIALES
 
-
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
 
@@ -123,6 +122,7 @@ router.put("/materiales/editar/:id", async (req, res) => {
 });
 
 router.post("/materiales/comprar/:id", async (req, res) => {
+  console.log("comprando:", req.body);
   try {
     const dir = req.body.data;
 
