@@ -151,23 +151,23 @@ router.post("/materiales/borrarMaterial/:id", (req, res) => {
 router.put("/materiales/editar/:id", async (req, res) => {
   console.log("req.body", req.body);
   const materialId = req.params.id;
-  const { nuevaUnidadMedida } = req.body;
+  const { unidadMedida } = req.body.data;
 
   try {
     // Verificar si la nueva unidad de medida ya existe
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
-        unidadMedida: nuevaUnidadMedida,
+        unidadMedida: unidadMedida
       },
     });
 
     if (!unidadMedidaExistente) {
       // Si no existe, créala
       unidadMedidaExistente = await Catalogo_unidad_medida.create({
-        unidadMedida: nuevaUnidadMedida,
+        unidadMedida: unidadMedida
       });
     }
-    console.log('unidadMedidaExistente ID', unidadMedidaExistente)
+    console.log("unidadMedidaExistente ID", unidadMedidaExistente);
     // Busca el material por su ID
     const material = await db.Catalogo_material.findByPk(materialId);
 
