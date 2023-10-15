@@ -185,7 +185,6 @@ router.put("/materiales/editar/:id", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al actualizar la unidad de medida" });
   }
 });
-});
 /* router.post("/materiales/editar/:id", async (req, res) => {
   console.log("EDITAR MATERIAL ID:", req.params.id);
   console.log("req.body", req.body);
