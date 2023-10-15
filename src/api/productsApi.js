@@ -13,7 +13,8 @@ const nowDate = new Date(objetoFecha);
 const fecha = nowDate.toLocaleDateString("en-ZA");
 
 router.post("/materiales/nuevoMaterial", async (req, res) => {
-  console.log("nuevo material:", req.body);
+  console.log("req.body", req.body);
+
   try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
@@ -47,7 +48,10 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
 module.exports = router;
 //MATERIALES
 
+
 router.get("/materiales/listarTodos", (req, res) => {
+  console.log("Listando productos con unidades de medida");
+
   Catalogo_materiales.findAll({
     where: {
       estado: "activo",
@@ -123,7 +127,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
     const dir = req.body.data;
 
     const unidadMedida = req.body.unidadMedida;
-    const unidades = req.body.unidades;
+    const medida = req.body.medida;
 
     const nuevaCompra = await Compra_materiales.create({
       idMaterial: req.params.id,
@@ -131,8 +135,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
       precioPesos: dir.precioPesos,
       conversion: dir.conversion,
       medidaId: dir.medidaId,
-      unidades: dir.unidades,
-      unidadMedida: unidadMedida,
+      medida: dir.medida,
     });
 
     const compraId = nuevaCompra.idCompra;
