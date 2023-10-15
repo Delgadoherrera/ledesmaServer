@@ -132,6 +132,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
       conversion: dir.conversion,
       medidaId: dir.medidaId,
       unidades: dir.unidades,
+      unidadMedida: unidadMedida,
     });
 
     const compraId = nuevaCompra.idCompra;
