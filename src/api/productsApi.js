@@ -47,11 +47,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
 module.exports = router;
 //MATERIALES
 
-router.post("/materiales/nuevoMaterial", async (req, res) => {
-  const dir = req.body;
 
-  res.status(200).send();
-});
 router.get("/materiales/listarTodos", (req, res) => {
   Catalogo_materiales.findAll({
     where: {
