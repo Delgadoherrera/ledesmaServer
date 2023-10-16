@@ -208,7 +208,7 @@ router.post("/combos/nuevoCombo", async (req, res) => {
     }
 
     // Agregar elementos de combo a través de req.body
-    const elementosCombo = req.body.elementosCombo; // Supongamos que elementosCombo es un arreglo de elementos
+    const elementosCombo = req.body; // Supongamos que elementosCombo es un arreglo de elementos
 
     // Iterar a través de los elementosCombo y crear las asociaciones con Combo_material_item
     for (const elemento of elementosCombo) {
