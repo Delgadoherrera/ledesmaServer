@@ -194,16 +194,21 @@ router.post("/combos/nuevoCombo", async (req, res) => {
       estado: "activo", // O establece el estado de acuerdo a tus necesidades
     });
 
+    await db.Combo_material_item.create({
+      combo_material_id: nuevoCombo.id, // Asociar el elemento con el nuevo combo
+      material_id: id, // Suponemos que elemento.material_id es el ID del material de Catalogo_material
+    });
+
     // Agregar elementos de combo a través de req.body
     const elementosCombo = req.body.elementosCombo; // Supongamos que elementosCombo es un arreglo de elementos
 
     // Iterar a través de los elementosCombo y crear las asociaciones con Combo_material_item
-    for (const elemento of elementosCombo) {
+    /*     for (const elemento of elementosCombo) {
       await db.Combo_material_item.create({
         combo_material_id: nuevoCombo.id, // Asociar el elemento con el nuevo combo
         material_id: elemento.material_id, // Suponemos que elemento.material_id es el ID del material de Catalogo_material
       });
-    }
+    } */
 
     res
       .status(201)
