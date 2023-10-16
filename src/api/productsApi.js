@@ -5,6 +5,8 @@ const Catalogo_materiales = db.Catalogo_material;
 const Compra_materiales = db.Compra_material;
 const Cotizacion = db.Cotizacion;
 const Catalogo_unidad_medida = db.Catalogo_unidad_medida;
+const Combo_materiales = db.Combo_material;
+const Combo_material_items = db.Combo_material_item;
 
 var Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -179,4 +181,37 @@ router.get("/compras/listarTodas", (req, res) => {
       return res.status(500).send("Error al listar compras");
     });
 });
+
+//COMBOS
+
+router.post("/combos/nuevoCombo", async (req, res) => {
+  console.log("req.body", req.body);
+
+  try {
+    // Crear el combo en la base de datos
+    const nuevoCombo = await db.Combo_material.create({
+      nombreCombo: req.body.nombreCombo, // Obtén el nombre del combo desde req.body
+      estado: "activo", // O establece el estado de acuerdo a tus necesidades
+    });
+
+    // Agregar elementos de combo a través de req.body
+    const elementosCombo = req.body.elementosCombo; // Supongamos que elementosCombo es un arreglo de elementos
+
+    // Iterar a través de los elementosCombo y crear las asociaciones con Combo_material_item
+    for (const elemento of elementosCombo) {
+      await db.Combo_material_item.create({
+        combo_material_id: nuevoCombo.id, // Asociar el elemento con el nuevo combo
+        material_id: elemento.material_id, // Suponemos que elemento.material_id es el ID del material de Catalogo_material
+      });
+    }
+
+    res
+      .status(201)
+      .json({ message: "Combo creado con éxito", combo: nuevoCombo });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Hubo un error al crear el combo" });
+  }
+});
+
 module.exports = router;
