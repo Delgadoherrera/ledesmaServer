@@ -190,7 +190,7 @@ router.post("/combos/nuevoCombo", async (req, res) => {
   try {
     // Crear el combo en la base de datos
     const nuevoCombo = await db.Combo_material.create({
-      nombreCombo: req.body.nombreCombo, // Obtén el nombre del combo desde req.body
+      nombreCombo: "primerCombo" || req.body.nombreCombo, // Obtén el nombre del combo desde req.body
       estado: "activo", // O establece el estado de acuerdo a tus necesidades
     });
 
