@@ -188,17 +188,36 @@ router.post("/combos/nuevoCombo", async (req, res) => {
   console.log("req.body", req.body);
 
   try {
-    // Crear el combo en la base de datos
-    const nuevoCombo = await db.Combo_material.create({
-      nombreCombo: req.body.nombreCombo || "Sin nombre", // Obtén el nombre del combo desde req.body
-      estado: "activo", // O establece el estado de acuerdo a tus necesidades
+    // Verifica si ya existe un combo con el nombre "Sin nombre" y estado "activo"
+    const comboExistente = await db.Combo_material.findOne({
+      where: {
+        nombreCombo: "Sin nombre",
+        estado: "activo",
+      },
+    });
+
+    // Si no existe un combo "Sin nombre", crea uno
+    if (!comboExistente) {
+      await db.Combo_material.create({
+        nombreCombo: "Sin nombre",
+        estado: "activo",
+      });
+    }
+
+    // Obtén el último combo "Sin nombre" creado o el primero si es el único
+    const nuevoCombo = await db.Combo_material.findOne({
+      where: {
+        nombreCombo: "Sin nombre",
+        estado: "activo",
+      },
+      order: [["id", "DESC"]],
     });
 
     if (req.body.elementoCombo) {
-      // Si hay un elemento de combo en el req.body, créalo
+      // Si hay un elemento de combo en el req.body, créalo asociado al combo obtenido
       await db.Combo_material_item.create({
-        combo_material_id: nuevoCombo.id, // Asociar el elemento con el nuevo combo
-        material_id: req.body.elementoCombo.id, // Suponemos que elementoCombo es un objeto con el ID del material de Catalogo_material
+        combo_material_id: nuevoCombo.id,
+        material_id: req.body.elementoCombo.id,
       });
     }
 
@@ -210,5 +229,6 @@ router.post("/combos/nuevoCombo", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al crear el combo" });
   }
 });
+
 
 module.exports = router;
