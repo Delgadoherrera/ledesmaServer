@@ -186,6 +186,7 @@ router.get("/compras/listarTodas", (req, res) => {
 
 router.post("/combos/nuevoCombo/:comboName", async (req, res) => {
   console.log("req.body", req.body);
+  req.params.comboName
 
   try {
     // Verificar si ya existe un combo "Sin nombre" y estado "activo"
