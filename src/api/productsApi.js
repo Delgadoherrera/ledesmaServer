@@ -188,36 +188,33 @@ router.post("/combos/nuevoCombo", async (req, res) => {
   console.log("req.body", req.body);
 
   try {
-    // Verifica si ya existe un combo con el nombre "Sin nombre" y estado "activo"
-    const comboExistente = await db.Combo_material.findOne({
+    // Verificar si ya existe un combo "Sin nombre" y estado "activo"
+    const comboSinNombre = await db.Combo_material.findOne({
       where: {
         nombreCombo: "Sin nombre",
         estado: "activo",
       },
     });
 
-    // Si no existe un combo "Sin nombre", crea uno
-    if (!comboExistente) {
-      await db.Combo_material.create({
+    // Si combo "Sin nombre" existe, úsalo; de lo contrario, crea uno
+    let nuevoCombo;
+    if (comboSinNombre) {
+      nuevoCombo = comboSinNombre;
+    } else {
+      nuevoCombo = await db.Combo_material.create({
         nombreCombo: "Sin nombre",
         estado: "activo",
       });
     }
 
-    // Obtén el último combo "Sin nombre" creado o el primero si es el único
-    const nuevoCombo = await db.Combo_material.findOne({
-      where: {
-        nombreCombo: "Sin nombre",
-        estado: "activo",
-      },
-      order: [["id", "DESC"]],
-    });
+    // Agregar elementos de combo a través de req.body
+    const elementosCombo = req.body.elementosCombo; // Supongamos que elementosCombo es un arreglo de elementos
 
-    if (req.body.elementoCombo) {
-      // Si hay un elemento de combo en el req.body, créalo asociado al combo obtenido
+    // Iterar a través de los elementosCombo y crear las asociaciones con Combo_material_item
+    for (const elemento of elementosCombo) {
       await db.Combo_material_item.create({
         combo_material_id: nuevoCombo.id,
-        material_id: req.body.elementoCombo.id,
+        material_id: elemento.id, // Suponemos que elemento.id es el ID del material de Catalogo_material
       });
     }
 
@@ -229,6 +226,5 @@ router.post("/combos/nuevoCombo", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al crear el combo" });
   }
 });
-
 
 module.exports = router;
