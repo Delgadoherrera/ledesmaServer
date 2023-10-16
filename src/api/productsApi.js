@@ -196,7 +196,7 @@ router.post("/combos/nuevoCombo", async (req, res) => {
 
     await db.Combo_material_item.create({
       combo_material_id: nuevoCombo.id, // Asociar el elemento con el nuevo combo
-      material_id: id, // Suponemos que elemento.material_id es el ID del material de Catalogo_material
+      material_id: req.body.id, // Suponemos que elemento.material_id es el ID del material de Catalogo_material
     });
 
     // Agregar elementos de combo a través de req.body
