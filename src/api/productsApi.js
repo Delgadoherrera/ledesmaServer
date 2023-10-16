@@ -184,14 +184,14 @@ router.get("/compras/listarTodas", (req, res) => {
 
 //COMBOS
 
-router.post("/combos/nuevoCombo", async (req, res) => {
+router.post("/combos/nuevoCombo/:comboName", async (req, res) => {
   console.log("req.body", req.body);
 
   try {
     // Verificar si ya existe un combo "Sin nombre" y estado "activo"
     const comboSinNombre = await db.Combo_material.findOne({
       where: {
-        nombreCombo: "Sin nombre",
+        nombreCombo: req.params.comboName,
         estado: "activo",
       },
     });
@@ -202,7 +202,7 @@ router.post("/combos/nuevoCombo", async (req, res) => {
       nuevoCombo = comboSinNombre;
     } else {
       nuevoCombo = await db.Combo_material.create({
-        nombreCombo: "Sin nombre",
+        nombreCombo: req.params.comboName,
         estado: "activo",
       });
     }
