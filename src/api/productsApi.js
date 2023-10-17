@@ -133,7 +133,7 @@ router.post("/materiales/comprar/:id", async (req, res) => {
 
     const nuevaCompra = await Compra_materiales.create({
       idMaterial: req.params.id,
-      fechaCompra: fecha,
+      fechaCompra: req.body.fechaCompra,
       precioPesos: dir.precioPesos,
       conversion: dir.conversion,
       medidaId: dir.medidaId,
