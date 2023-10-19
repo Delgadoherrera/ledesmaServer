@@ -7,6 +7,9 @@ const Cotizacion = db.Cotizacion;
 const Catalogo_unidad_medida = db.Catalogo_unidad_medida;
 const Combo_materiales = db.Combo_material;
 const Combo_material_items = db.Combo_material_item;
+const Venta_productos = db.Venta_producto;
+const Imagenes = db.Imagen;
+const Catalogo_productos = db.Catalogo_producto;
 
 var Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -14,11 +17,10 @@ const objetoFecha = Date.now();
 const nowDate = new Date(objetoFecha);
 const fecha = nowDate.toLocaleDateString("en-ZA");
 
-
 router.post("/productos/nuevoProducto", async (req, res) => {
   console.log("req.body", req.body);
 
- /*  try {
+  try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
         unidadMedida: req.body.unidadMedida,
@@ -31,22 +33,31 @@ router.post("/productos/nuevoProducto", async (req, res) => {
       });
     }
 
-    const { descripcion, medida, unidadMedida } = req.body;
+    const imagen = await db.Imagen.create({
+      blobImage: req.body.img,
+    });
 
-    const nuevoMaterial = await db.Catalogo_material.create({
+    const { descripcion, medida, unidadMedida, img, nombre } = req.body;
+
+    const nuevoProducto = await db.Catalogo_producto.create({
       descripcion,
       medida,
+      nombre,
       estado: "activo",
+      imagenId: imagen.id,
       unidadMedidaId: unidadMedidaExistente.id,
       Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
     });
     res
       .status(201)
-      .json({ message: "Material creado con éxito", material: nuevoMaterial });
+      .json({
+        message: "nuevo producto creado con éxito",
+        material: nuevoProducto,
+      });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Hubo un error al crear el material" });
-  } */
+    res.status(500).json({ error: "Hubo un error al crear el nuevo Producto" });
+  }
 });
 
 router.post("/materiales/nuevoMaterial", async (req, res) => {
