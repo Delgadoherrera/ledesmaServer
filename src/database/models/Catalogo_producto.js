@@ -36,6 +36,10 @@ module.exports = (sequelize, dataTypes) => {
       foreignKey: "unidadMedidaId",
       as: "unidadMedida",
     });
+    Catalogo_producto.belongsTo(models.Imagen, {
+      foreignKey: "imagenId",
+      as: "id",
+    });
   };
   return Catalogo_producto;
 };
