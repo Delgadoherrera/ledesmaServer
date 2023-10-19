@@ -38,7 +38,7 @@ module.exports = (sequelize, dataTypes) => {
     });
     Catalogo_producto.belongsTo(models.Imagen, {
       foreignKey: "imagenId",
-      as: "id",
+      as: "blobImage",
     });
   };
   return Catalogo_producto;
