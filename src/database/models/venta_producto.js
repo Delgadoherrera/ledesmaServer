@@ -48,5 +48,5 @@ module.exports = (sequelize, dataTypes) => {
     });
   };
 
-  return Compra_material;
+  return Venta_producto;
 };
