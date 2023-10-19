@@ -15,7 +15,13 @@ module.exports = (sequelize, dataTypes) => {
     estado: {
       type: dataTypes.STRING,
     },
+    nombre: {
+      type: dataTypes.STRING,
+    },
     unidadMedidaId: {
+      type: dataTypes.INTEGER,
+    },
+    imagenId: {
       type: dataTypes.INTEGER,
     },
   };
