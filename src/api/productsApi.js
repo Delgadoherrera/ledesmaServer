@@ -42,7 +42,7 @@ router.post("/productos/nuevoProducto", async (req, res) => {
     const nuevoProducto = await db.Catalogo_producto.create({
       descripcion,
       medida,
-      nombre,
+      nombre: nombre,
       estado: "activo",
       imagenId: imagen.id,
       unidadMedidaId: unidadMedidaExistente.id,
