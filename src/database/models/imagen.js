@@ -19,7 +19,7 @@ module.exports = (sequelize, dataTypes) => {
   Imagen.associate = function (models) {
     Imagen.hasMany(models.Catalogo_producto, {
       as: "catalogo_productos", // Alias para la relación
-      foreignKey: "id", // La columna correcta que relaciona unidades de medida con materiales
+      foreignKey: "imagenId", // La columna correcta que relaciona unidades de medida con materiales
     });
   };
   return Imagen;  
