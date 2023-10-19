@@ -117,6 +117,32 @@ router.get("/materiales/listarTodos", (req, res) => {
       return res.status(500).send("Error al listar materiales");
     });
 });
+router.get("/productos/listarTodos", (req, res) => {
+  console.log("Listando productos con unidades de medida");
+
+  Catalogo_productos.findAll({
+    where: {
+      estado: "activo",
+    },
+    include: [
+      {
+        model: Catalogo_unidad_medida,
+        as: "unidadMedida",
+      },
+      {
+        model: Imagenes,
+        as: "id",
+      },
+    ],
+  })
+    .then(function (materiales) {
+      return res.status(200).json(materiales);
+    })
+    .catch((error) => {
+      console.log("Error: " + error);
+      return res.status(500).send("Error al listar materiales");
+    });
+});
 
 router.post("/materiales/borrarMaterial/:id", (req, res) => {
   Catalogo_materiales.update(
