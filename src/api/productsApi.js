@@ -131,7 +131,7 @@ router.get("/productos/listarTodos", (req, res) => {
       },
       {
         model: Imagenes,
-        as: "id",
+        as: "blobImage",
       },
     ],
   })
