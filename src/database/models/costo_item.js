@@ -15,6 +15,10 @@ module.exports = (sequelize, dataTypes) => {
     detalle: {
       type: dataTypes.STRING,
     },
+    idCosto: {
+      type: dataTypes.STRING,
+    },
+    
   };
   let config = {
     tableName: "costo_item",

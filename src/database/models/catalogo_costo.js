@@ -6,9 +6,6 @@ module.exports = (sequelize, dataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    idCostoItem: {
-      type: dataTypes.INTEGER,
-    },
     costo: {
       type: dataTypes.STRING,
     },
