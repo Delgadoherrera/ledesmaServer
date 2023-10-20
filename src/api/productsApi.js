@@ -11,7 +11,7 @@ const Venta_productos = db.Venta_producto;
 const Imagenes = db.Imagen;
 const Catalogo_productos = db.Catalogo_producto;
 const Catalogo_costos = db.Catalogo_costo;
-const Costo_items = db.Costo_precio;
+const Costo_items = db.Costo_item;
 var Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const objetoFecha = Date.now();
@@ -110,16 +110,9 @@ router.post("/costos/nuevoCosto", async (req, res) => {
 });
 
 router.get("/costos/listarTodos", (req, res) => {
-  console.log("Listando productos con unidades de medida");
+  console.log("Listando costos");
 
-  Catalogo_costos.findAll({
-    include: [
-      {
-        model: Costo_items,
-        as: "idCosto",
-      },
-    ],
-  })
+  Catalogo_costos.findAll()
     .then(function (costos) {
       return res.status(200).json(costos);
     })
