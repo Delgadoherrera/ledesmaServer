@@ -48,12 +48,10 @@ router.post("/productos/nuevoProducto", async (req, res) => {
       unidadMedidaId: unidadMedidaExistente.id,
       Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
     });
-    res
-      .status(201)
-      .json({
-        message: "nuevo producto creado con éxito",
-        material: nuevoProducto,
-      });
+    res.status(201).json({
+      message: "nuevo producto creado con éxito",
+      material: nuevoProducto,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Hubo un error al crear el nuevo Producto" });
@@ -93,7 +91,39 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al crear el material" });
   }
 });
-//MATERIALES
+router.post("/costos/nuevoCosto", async (req, res) => {
+  console.log("req.body", req.body);
+
+  /* try {
+    let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
+      where: {
+        unidadMedida: req.body.unidadMedida,
+      },
+    });
+
+    if (!unidadMedidaExistente) {
+      unidadMedidaExistente = await Catalogo_unidad_medida.create({
+        unidadMedida: req.body.unidadMedida,
+      });
+    }
+
+    const { descripcion, medida, unidadMedida } = req.body;
+
+    const nuevoMaterial = await db.Catalogo_material.create({
+      descripcion,
+      medida,
+      estado: "activo",
+      unidadMedidaId: unidadMedidaExistente.id,
+      Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
+    });
+    res
+      .status(201)
+      .json({ message: "Material creado con éxito", material: nuevoMaterial });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Hubo un error al crear el material" });
+  } */
+});
 
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
