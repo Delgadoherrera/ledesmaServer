@@ -95,7 +95,7 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
 router.post("/costos/itemCosto", async (req, res) => {
   console.log("req.body", req.body);
   res
-    .status(201)
+    .status(200)
     .json({ message: "Costo creado con éxito" });
   /*   try {
     const { costo, concepto } = req.body;
