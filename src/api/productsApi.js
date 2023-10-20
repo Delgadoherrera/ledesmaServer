@@ -10,6 +10,8 @@ const Combo_material_items = db.Combo_material_item;
 const Venta_productos = db.Venta_producto;
 const Imagenes = db.Imagen;
 const Catalogo_productos = db.Catalogo_producto;
+const Catalogo_gastos = db.Catalogo_gasto;
+const Costo_items = db.Costo_precio;
 
 var Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -93,38 +95,40 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
 });
 router.post("/costos/nuevoCosto", async (req, res) => {
   console.log("req.body", req.body);
-
-  /* try {
-    let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
-      where: {
-        unidadMedida: req.body.unidadMedida,
-      },
-    });
-
-    if (!unidadMedidaExistente) {
-      unidadMedidaExistente = await Catalogo_unidad_medida.create({
-        unidadMedida: req.body.unidadMedida,
-      });
-    }
-
-    const { descripcion, medida, unidadMedida } = req.body;
-
-    const nuevoMaterial = await db.Catalogo_material.create({
-      descripcion,
-      medida,
-      estado: "activo",
-      unidadMedidaId: unidadMedidaExistente.id,
-      Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
+  try {
+    const { costo, concepto } = req.body;
+    const nuevoCosto = await db.Catalogo_gasto.create({
+      costo: costo,
+      concepto: concepto,
     });
     res
       .status(201)
-      .json({ message: "Material creado con éxito", material: nuevoMaterial });
+      .json({ message: "Costo creado con éxito", material: nuevoCosto });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Hubo un error al crear el material" });
-  } */
+  }
 });
 
+router.get("/costos/listarTodos", (req, res) => {
+  console.log("Listando productos con unidades de medida");
+
+  Catalogo_gastos.findAll({
+    include: [
+      {
+        model: Costo_items,
+        as: "idCosto",
+      },
+    ],
+  })
+    .then(function (costos) {
+      return res.status(200).json(costos);
+    })
+    .catch((error) => {
+      console.log("Error: " + error);
+      return res.status(500).send("Error al listar Costos");
+    });
+});
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
 
@@ -222,7 +226,6 @@ router.put("/materiales/editar/:id", async (req, res) => {
       .json({ error: "Hubo un error al actualizar la unidad de medida" });
   }
 });
-
 router.post("/materiales/comprar/:id", async (req, res) => {
   console.log("comprando:", req.body);
   try {
@@ -254,7 +257,6 @@ router.post("/materiales/comprar/:id", async (req, res) => {
     res.status(500).send("Error al realizar la compra y cotización");
   }
 });
-
 router.get("/compras/listarTodas", (req, res) => {
   Compra_materiales.findAll({
     include: [
@@ -281,9 +283,6 @@ router.get("/compras/listarTodas", (req, res) => {
       return res.status(500).send("Error al listar compras");
     });
 });
-
-//COMBOS
-
 router.post("/combos/nuevoCombo/:comboName", async (req, res) => {
   console.log("req.body", req.body);
   console.log("req.params.comboName", req.params.comboName);
