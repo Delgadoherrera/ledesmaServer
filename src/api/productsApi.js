@@ -97,7 +97,7 @@ router.post("/costos/nuevoCosto", async (req, res) => {
   console.log("req.body", req.body);
   try {
     const { costo, concepto } = req.body;
-    const nuevoCosto = await db.Catalogo_gasto.create({
+    const nuevoCosto = await db.Catalogo_gastos.create({
       costo: costo,
       concepto: concepto,
     });
