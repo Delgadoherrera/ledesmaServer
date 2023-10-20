@@ -96,10 +96,10 @@ router.post("/costos/itemCosto", async (req, res) => {
   console.log("req.body", req.body);
 
   const nuevoItem = await db.Costo_item.create({
-    costo: req.body.valor,
     detalle: req.body.detalle,
     idCosto: req.body.idCosto,
     fecha: req.body.fecha,
+    valor:req.body.valor
   });
 
   res
