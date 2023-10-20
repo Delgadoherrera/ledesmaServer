@@ -92,6 +92,23 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al crear el material" });
   }
 });
+router.post("/costos/itemCosto", async (req, res) => {
+  console.log("req.body", req.body);
+/*   try {
+    const { costo, concepto } = req.body;
+    const nuevoCosto = await Catalogo_costos.create({
+      costo: costo,
+      concepto: concepto,
+    });
+    res
+      .status(201)
+      .json({ message: "Costo creado con éxito", material: nuevoCosto });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Hubo un error al crear el material" });
+  } */
+});
+
 router.post("/costos/nuevoCosto", async (req, res) => {
   console.log("req.body", req.body);
   try {
@@ -108,7 +125,6 @@ router.post("/costos/nuevoCosto", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al crear el material" });
   }
 });
-
 router.get("/costos/listarTodos", (req, res) => {
   console.log("Listando costos");
 
