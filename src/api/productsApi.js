@@ -304,6 +304,9 @@ router.get("/compras/listarTodas", (req, res) => {
 });
 
 router.get("/costos/listarItems", (req, res) => {
+
+console.log('LISTANDO COSTO_ITEMS')
+
   Costo_items.findAll({
     include: [
       {
