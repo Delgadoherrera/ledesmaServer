@@ -10,9 +10,8 @@ const Combo_material_items = db.Combo_material_item;
 const Venta_productos = db.Venta_producto;
 const Imagenes = db.Imagen;
 const Catalogo_productos = db.Catalogo_producto;
-const Catalogo_gastos = db.Catalogo_gasto;
+const Catalogo_costos = db.Catalogo_costo;
 const Costo_items = db.Costo_precio;
-
 var Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const objetoFecha = Date.now();
@@ -97,7 +96,7 @@ router.post("/costos/nuevoCosto", async (req, res) => {
   console.log("req.body", req.body);
   try {
     const { costo, concepto } = req.body;
-    const nuevoCosto = await db.Catalogo_gastos.create({
+    const nuevoCosto = await Catalogo_costos.create({
       costo: costo,
       concepto: concepto,
     });
@@ -113,7 +112,7 @@ router.post("/costos/nuevoCosto", async (req, res) => {
 router.get("/costos/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
 
-  Catalogo_gastos.findAll({
+  Catalogo_costos.findAll({
     include: [
       {
         model: Costo_items,
