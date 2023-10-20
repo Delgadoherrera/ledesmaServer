@@ -99,7 +99,7 @@ router.post("/costos/itemCosto", async (req, res) => {
     detalle: req.body.detalle,
     idCosto: req.body.idCosto,
     fecha: req.body.fecha,
-    valor:req.body.valor
+    valor: req.body.valor,
   });
 
   res
@@ -302,6 +302,26 @@ router.get("/compras/listarTodas", (req, res) => {
       return res.status(500).send("Error al listar compras");
     });
 });
+
+router.get("/costos/listarItems", (req, res) => {
+  Costo_items.findAll({
+    include: [
+      {
+        model: Catalogo_costos,
+        as: "id",
+      },
+    ],
+  })
+    .then(function (compras) {
+      console.log("COMPRAS con INCLUDE", compras);
+      return res.status(200).send(compras);
+    })
+    .catch((error) => {
+      console.log("Error al listar compras: " + error);
+      return res.status(500).send("Error al listar compras");
+    });
+});
+
 router.post("/combos/nuevoCombo/:comboName", async (req, res) => {
   console.log("req.body", req.body);
   console.log("req.params.comboName", req.params.comboName);
