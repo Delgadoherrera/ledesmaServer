@@ -143,7 +143,6 @@ router.get("/productos/listarTodos", (req, res) => {
       return res.status(500).send("Error al listar materiales");
     });
 });
-
 router.post("/materiales/borrarMaterial/:id", (req, res) => {
   Catalogo_materiales.update(
     {
@@ -181,7 +180,7 @@ router.put("/materiales/editar/:id", async (req, res) => {
     if (!material) {
       return res.status(404).json({ error: "Material no encontrado" });
     }
-
+    material.descripcion = req.body.data.descripcion;
     material.unidadMedidaId = unidadMedidaExistente.id;
     await material.save();
 
