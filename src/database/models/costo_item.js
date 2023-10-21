@@ -27,7 +27,7 @@ module.exports = (sequelize, dataTypes) => {
   const Costo_item = sequelize.define(alias, cols, config);
 
   Costo_item.associate = function (models) {
-    Costo_item.hasMany(models.Catalogo_costo, {
+    Costo_item.belongsTo(models.Catalogo_costo, {
       as: "catalogo_costo", // Alias para la relación
       foreignKey: "idCosto", // La columna correcta que relaciona unidades de medida con materiales
     });
