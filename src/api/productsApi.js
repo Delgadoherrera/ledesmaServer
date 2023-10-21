@@ -322,7 +322,6 @@ router.get("/costos/listarItems", (req, res) => {
 });
 router.put("/costos/editar/:id", async (req, res) => {
   console.log("req.body Editar Costos:", req.body);
-  const materialId = req.params.id;
   res.status(200).json({ message: "Unidad de medida actualizada con éxito" });
 
 /* 
