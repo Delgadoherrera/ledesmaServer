@@ -311,7 +311,7 @@ console.log('LISTANDO COSTO_ITEMS')
     include: [
       {
         model: Catalogo_costos,
-        as: "idCosto",
+        as: "catalogo_costo",
       },
     ],
   })
