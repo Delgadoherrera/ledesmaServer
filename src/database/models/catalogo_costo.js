@@ -20,7 +20,7 @@ module.exports = (sequelize, dataTypes) => {
   const Catalogo_costo = sequelize.define(alias, cols, config);
   Catalogo_costo.associate = function (models) {
     Catalogo_costo.belongsTo(models.Costo_item, {
-      foreignKey: "id", // Utiliza el campo correcto para la relación
+      foreignKey: "idCosto", // Utiliza el campo correcto para la relación
       as: "id", // Usa el alias correcto
     });
   };
