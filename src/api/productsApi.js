@@ -340,6 +340,7 @@ router.put("/costos/editar/:id", async (req, res) => {
   }
 });
 router.post("/costos/eliminarCosto/:id", (req, res) => {
+  console.log('ELIMINAR COSTO:', req.params.id)
   Catalogo_costos.update(
     {
       estado: "hide",
