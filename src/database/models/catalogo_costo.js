@@ -21,7 +21,7 @@ module.exports = (sequelize, dataTypes) => {
   Catalogo_costo.associate = function (models) {
     Catalogo_costo.belongsTo(models.Costo_item, {
       foreignKey: "idCosto", // Utiliza el campo correcto para la relación
-      as: "id", // Usa el alias correcto
+      as: "idCosto", // Usa el alias correcto
     });
   };
   return Catalogo_costo;
