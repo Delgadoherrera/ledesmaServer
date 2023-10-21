@@ -322,38 +322,21 @@ router.get("/costos/listarItems", (req, res) => {
 });
 router.put("/costos/editar/:id", async (req, res) => {
   console.log("req.body Editar Costos:", req.body);
-  res.status(202).json({ message: "Unidad de medida actualizada con éxito" });
-
-/* 
   try {
-    let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
-      where: {
-        unidadMedida: unidadMedida,
-      },
-    });
+    const costo = await db.Catalogo_costo.findByPk(req.params.id);
 
-    if (!unidadMedidaExistente) {
-      unidadMedidaExistente = await Catalogo_unidad_medida.create({
-        unidadMedida: unidadMedida,
-      });
+    if (!costo) {
+      return res.status(404).json({ error: "costo no encontrado" });
     }
+    costo.costo = req.body.data.costo;
+    costo.concepto = req.body.data.concepto;
+    await costo.save();
 
-    const material = await db.Catalogo_material.findByPk(materialId);
-
-    if (!material) {
-      return res.status(404).json({ error: "Material no encontrado" });
-    }
-    material.descripcion = req.body.data.descripcion;
-    material.unidadMedidaId = unidadMedidaExistente.id;
-    await material.save();
-
-    res.status(200).json({ message: "Unidad de medida actualizada con éxito" });
+    res.status(200).json({ message: "costo  actualizado con éxito" });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ error: "Hubo un error al actualizar la unidad de medida" });
-  } */
+    res.status(500).json({ error: "Hubo un error al actualizar el costo" });
+  }
 });
 router.post("/combos/nuevoCombo/:comboName", async (req, res) => {
   console.log("req.body", req.body);
