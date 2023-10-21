@@ -29,7 +29,7 @@ module.exports = (sequelize, dataTypes) => {
   Costo_item.associate = function (models) {
     Costo_item.hasMany(models.Catalogo_costo, {
       as: "catalogo_costo", // Alias para la relación
-      foreignKey: "id", // La columna correcta que relaciona unidades de medida con materiales
+      foreignKey: "idCosto", // La columna correcta que relaciona unidades de medida con materiales
     });
   };
   return Costo_item;
