@@ -125,6 +125,7 @@ router.post("/costos/nuevoCosto", async (req, res) => {
     const nuevoCosto = await Catalogo_costos.create({
       costo: costo,
       concepto: concepto,
+      estado:"activo"
     });
     res
       .status(201)
@@ -337,6 +338,20 @@ router.put("/costos/editar/:id", async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Hubo un error al actualizar el costo" });
   }
+});
+router.post("/costos/eliminarCosto/:id", (req, res) => {
+  Catalogo_costos.update(
+    {
+      estado: "hide",
+    },
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  );
+
+  res.status(200).send("success");
 });
 router.post("/combos/nuevoCombo/:comboName", async (req, res) => {
   console.log("req.body", req.body);

@@ -12,6 +12,9 @@ module.exports = (sequelize, dataTypes) => {
     concepto: {
       type: dataTypes.STRING,
     },
+    estado: {
+      type: dataTypes.STRING,
+    },
   };
   let config = {
     tableName: "catalogo_costo",
