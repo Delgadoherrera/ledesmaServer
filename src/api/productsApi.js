@@ -304,14 +304,13 @@ router.get("/compras/listarTodas", (req, res) => {
 });
 
 router.get("/costos/listarItems", (req, res) => {
-
-console.log('LISTANDO COSTO_ITEMS')
+  console.log("LISTANDO COSTO_ITEMS");
 
   Costo_items.findAll({
     include: [
       {
-        model: Catalogo_costos,
-        as: "catalogo_costo",
+        model: Catalogo_costos, // Debe coincidir con el nombre del modelo
+        as: "catalogo_costo", // Debe coincidir con el alias en el modelo Costo_item
       },
     ],
   })
