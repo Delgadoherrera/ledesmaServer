@@ -16,7 +16,7 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.STRING,
     },
     idCosto: {
-      type: dataTypes.STRING,
+      type: dataTypes.INTEGER,
     },
     
   };
