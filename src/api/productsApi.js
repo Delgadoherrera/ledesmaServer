@@ -58,7 +58,6 @@ router.post("/productos/nuevoProducto", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al crear el nuevo Producto" });
   }
 });
-
 router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("req.body", req.body);
 
@@ -119,7 +118,6 @@ router.post("/costos/itemCosto", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al crear el material" });
   } */
 });
-
 router.post("/costos/nuevoCosto", async (req, res) => {
   console.log("req.body", req.body);
   try {
@@ -302,7 +300,6 @@ router.get("/compras/listarTodas", (req, res) => {
       return res.status(500).send("Error al listar compras");
     });
 });
-
 router.get("/costos/listarItems", (req, res) => {
   console.log("LISTANDO COSTO_ITEMS");
 
@@ -323,7 +320,42 @@ router.get("/costos/listarItems", (req, res) => {
       return res.status(500).send("Error al listar compras");
     });
 });
+router.put("/costos/editar/:id", async (req, res) => {
+  console.log("req.body Editar Costos:", req.body);
+  const materialId = req.params.id;
+  res.status(200).json({ message: "Unidad de medida actualizada con éxito" });
 
+/* 
+  try {
+    let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
+      where: {
+        unidadMedida: unidadMedida,
+      },
+    });
+
+    if (!unidadMedidaExistente) {
+      unidadMedidaExistente = await Catalogo_unidad_medida.create({
+        unidadMedida: unidadMedida,
+      });
+    }
+
+    const material = await db.Catalogo_material.findByPk(materialId);
+
+    if (!material) {
+      return res.status(404).json({ error: "Material no encontrado" });
+    }
+    material.descripcion = req.body.data.descripcion;
+    material.unidadMedidaId = unidadMedidaExistente.id;
+    await material.save();
+
+    res.status(200).json({ message: "Unidad de medida actualizada con éxito" });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "Hubo un error al actualizar la unidad de medida" });
+  } */
+});
 router.post("/combos/nuevoCombo/:comboName", async (req, res) => {
   console.log("req.body", req.body);
   console.log("req.params.comboName", req.params.comboName);
