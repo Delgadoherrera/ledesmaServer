@@ -123,7 +123,7 @@ router.post("/categorias/nuevaCategoriaProducto", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al crear el material" });
   }
 });
-router.post("/categorias/nuevoItem", async (req, res) => {
+router.post("/categorias/nuevoItemProducto", async (req, res) => {
   console.log("req.body", req.body);
 
   try {
