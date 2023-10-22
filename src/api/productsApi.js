@@ -42,6 +42,18 @@ router.get("/materiales/listarTodos", (req, res) => {
       return res.status(500).send("Error al listar materiales");
     });
 });
+router.get("/categoriasProductos/listarTodos", (req, res) => {
+  console.log("Listando costos");
+
+  Catalogo_categoria_productos.findAll()
+    .then(function (costos) {
+      return res.status(200).json(costos);
+    })
+    .catch((error) => {
+      console.log("Error: " + error);
+      return res.status(500).send("Error al listar Costos");
+    });
+});
 router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("req.body", req.body);
 
