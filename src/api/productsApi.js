@@ -123,6 +123,42 @@ router.post("/categorias/nuevaCategoriaProducto", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al crear el material" });
   }
 });
+router.post("/categorias/nuevoItem", async (req, res) => {
+  console.log("req.body", req.body);
+
+  try {
+    let categoriaExistente = await Catalogo_categoria_productos.findOne({
+      where: {
+        detalle: req.body.detalle,
+      },
+    });
+
+    if (!categoriaExistente) {
+      categoriaExistente = await Catalogo_categoria_productos.create({
+        detalle: req.body.detalle,
+      });
+    }
+
+    /*   let item_categoria_existente = await Categoria_productos_item.findOne({
+    where: {
+      descripcion: req.body.descripcion,
+    },
+  });
+
+  if (!item_categoria_existente) {
+    item_categoria_existente = await Categoria_productos_item.create({
+      descripcion: req.body.descripcion,
+    });
+  } */
+
+    res
+      .status(201)
+      .json({ message: "Costo creado con éxito", material: "nuevoCosto" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Hubo un error al crear el material" });
+  }
+});
 router.post("/materiales/borrarMaterial/:id", (req, res) => {
   Catalogo_materiales.update(
     {
