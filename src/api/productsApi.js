@@ -163,7 +163,7 @@ router.get("/categorias/listarItemsProductos", (req, res) => {
     include: [
       {
         model: Catalogo_categoria_productos, // Debe coincidir con el nombre del modelo
-        as: "id", // Debe coincidir con el alias en el modelo Costo_item
+        as: "categoria", // Debe coincidir con el alias en el modelo Costo_item
       },
     ],
   })
