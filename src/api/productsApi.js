@@ -133,14 +133,20 @@ router.post("/categorias/nuevoItemProducto", async (req, res) => {
       },
     });
 
-    if (!categoriaExistente) {
-      console.log(" NO EXISTE TAL CATEGORIA");
-    }
-
-    await Categoria_productos_item.create({
-      descripcion: req.body.descripcion,
-      categoria_id: categoriaExistente.id,
+    let unidadMedidaExistente = await Categoria_productos_item.findOne({
+      where: {
+        descripcion: req.body.descripcion,
+      },
     });
+
+    if (!unidadMedidaExistente) {
+      await Categoria_productos_item.create({
+        descripcion: req.body.descripcion,
+        categoria_id: categoriaExistente.id,
+      });
+    } else {
+      console.log("YA EXISTE TAL ENTRADA;");
+    }
 
     res
       .status(201)
