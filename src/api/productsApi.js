@@ -422,7 +422,7 @@ router.get("/productos/listarTodos", (req, res) => {
       },
       {
         model: Categoria_productos_item,
-        as: "id",
+        as: "categoria",
       },
     ],
   })
