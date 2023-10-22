@@ -18,45 +18,28 @@ const objetoFecha = Date.now();
 const nowDate = new Date(objetoFecha);
 const fecha = nowDate.toLocaleDateString("en-ZA");
 
-router.post("/productos/nuevoProducto", async (req, res) => {
-  console.log("req.body", req.body);
 
-  try {
-    let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
-      where: {
-        unidadMedida: req.body.unidadMedida,
-      },
-    });
+router.get("/materiales/listarTodos", (req, res) => {
+  console.log("Listando productos con unidades de medida");
 
-    if (!unidadMedidaExistente) {
-      unidadMedidaExistente = await Catalogo_unidad_medida.create({
-        unidadMedida: req.body.unidadMedida,
-      });
-    }
-
-    const imagen = await db.Imagen.create({
-      blobImage: req.body.img,
-    });
-
-    const { descripcion, medida, unidadMedida, img, nombre } = req.body;
-
-    const nuevoProducto = await db.Catalogo_producto.create({
-      descripcion,
-      medida,
-      nombre: nombre,
+  Catalogo_materiales.findAll({
+    where: {
       estado: "activo",
-      imagenId: imagen.id,
-      unidadMedidaId: unidadMedidaExistente.id,
-      Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
+    },
+    include: [
+      {
+        model: Catalogo_unidad_medida,
+        as: "unidadMedida",
+      },
+    ],
+  })
+    .then(function (materiales) {
+      return res.status(200).json(materiales);
+    })
+    .catch((error) => {
+      console.log("Error: " + error);
+      return res.status(500).send("Error al listar materiales");
     });
-    res.status(201).json({
-      message: "nuevo producto creado con éxito",
-      material: nuevoProducto,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Hubo un error al crear el nuevo Producto" });
-  }
 });
 router.post("/materiales/nuevoMaterial", async (req, res) => {
   console.log("req.body", req.body);
@@ -90,110 +73,6 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Hubo un error al crear el material" });
   }
-});
-router.post("/costos/itemCosto", async (req, res) => {
-  console.log("req.body", req.body);
-
-  const nuevoItem = await db.Costo_item.create({
-    detalle: req.body.detalle,
-    idCosto: req.body.idCosto,
-    fecha: req.body.fecha,
-    valor: req.body.valor,
-  });
-
-  res
-    .status(200)
-    .json({ message: "Costo creado con éxito", nuevoitem: nuevoItem });
-  /*   try {
-    const { costo, concepto } = req.body;
-    const nuevoCosto = await Catalogo_costos.create({
-      costo: costo,
-      concepto: concepto,
-    });
-    res
-      .status(201)
-      .json({ message: "Costo creado con éxito", material: nuevoCosto });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Hubo un error al crear el material" });
-  } */
-});
-router.post("/costos/nuevoCosto", async (req, res) => {
-  console.log("req.body", req.body);
-  try {
-    const { costo, concepto } = req.body;
-    const nuevoCosto = await Catalogo_costos.create({
-      costo: costo,
-      concepto: concepto,
-      estado:"activo"
-    });
-    res
-      .status(201)
-      .json({ message: "Costo creado con éxito", material: nuevoCosto });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Hubo un error al crear el material" });
-  }
-});
-router.get("/costos/listarTodos", (req, res) => {
-  console.log("Listando costos");
-
-  Catalogo_costos.findAll()
-    .then(function (costos) {
-      return res.status(200).json(costos);
-    })
-    .catch((error) => {
-      console.log("Error: " + error);
-      return res.status(500).send("Error al listar Costos");
-    });
-});
-router.get("/materiales/listarTodos", (req, res) => {
-  console.log("Listando productos con unidades de medida");
-
-  Catalogo_materiales.findAll({
-    where: {
-      estado: "activo",
-    },
-    include: [
-      {
-        model: Catalogo_unidad_medida,
-        as: "unidadMedida",
-      },
-    ],
-  })
-    .then(function (materiales) {
-      return res.status(200).json(materiales);
-    })
-    .catch((error) => {
-      console.log("Error: " + error);
-      return res.status(500).send("Error al listar materiales");
-    });
-});
-router.get("/productos/listarTodos", (req, res) => {
-  console.log("Listando productos con unidades de medida");
-
-  Catalogo_productos.findAll({
-    where: {
-      estado: "activo",
-    },
-    include: [
-      {
-        model: Catalogo_unidad_medida,
-        as: "unidadMedida",
-      },
-      {
-        model: Imagenes,
-        as: "blobImage",
-      },
-    ],
-  })
-    .then(function (materiales) {
-      return res.status(200).json(materiales);
-    })
-    .catch((error) => {
-      console.log("Error: " + error);
-      return res.status(500).send("Error al listar materiales");
-    });
 });
 router.post("/materiales/borrarMaterial/:id", (req, res) => {
   Catalogo_materiales.update(
@@ -275,30 +154,60 @@ router.post("/materiales/comprar/:id", async (req, res) => {
     res.status(500).send("Error al realizar la compra y cotización");
   }
 });
-router.get("/compras/listarTodas", (req, res) => {
-  Compra_materiales.findAll({
-    include: [
-      {
-        model: Catalogo_materiales,
-        as: "catalogo_material",
-      },
-      {
-        model: Cotizacion,
-        as: "cotizacion",
-      },
-      {
-        model: Catalogo_unidad_medida,
-        as: "unidadMedida",
-      },
-    ],
-  })
-    .then(function (compras) {
-      console.log("COMPRAS con INCLUDE", compras);
-      return res.status(200).send(compras);
+router.post("/costos/itemCosto", async (req, res) => {
+  console.log("req.body", req.body);
+
+  const nuevoItem = await db.Costo_item.create({
+    detalle: req.body.detalle,
+    idCosto: req.body.idCosto,
+    fecha: req.body.fecha,
+    valor: req.body.valor,
+  });
+
+  res
+    .status(200)
+    .json({ message: "Costo creado con éxito", nuevoitem: nuevoItem });
+  /*   try {
+    const { costo, concepto } = req.body;
+    const nuevoCosto = await Catalogo_costos.create({
+      costo: costo,
+      concepto: concepto,
+    });
+    res
+      .status(201)
+      .json({ message: "Costo creado con éxito", material: nuevoCosto });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Hubo un error al crear el material" });
+  } */
+});
+router.post("/costos/nuevoCosto", async (req, res) => {
+  console.log("req.body", req.body);
+  try {
+    const { costo, concepto } = req.body;
+    const nuevoCosto = await Catalogo_costos.create({
+      costo: costo,
+      concepto: concepto,
+      estado:"activo"
+    });
+    res
+      .status(201)
+      .json({ message: "Costo creado con éxito", material: nuevoCosto });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Hubo un error al crear el material" });
+  }
+});
+router.get("/costos/listarTodos", (req, res) => {
+  console.log("Listando costos");
+
+  Catalogo_costos.findAll()
+    .then(function (costos) {
+      return res.status(200).json(costos);
     })
     .catch((error) => {
-      console.log("Error al listar compras: " + error);
-      return res.status(500).send("Error al listar compras");
+      console.log("Error: " + error);
+      return res.status(500).send("Error al listar Costos");
     });
 });
 router.get("/costos/listarItems", (req, res) => {
@@ -340,7 +249,6 @@ router.put("/costos/editar/:id", async (req, res) => {
   }
 });
 router.post("/costos/eliminarCosto/:id", (req, res) => {
-  console.log('ELIMINAR COSTO:', req.params.id)
   Catalogo_costos.update(
     {
       estado: "hide",
@@ -353,6 +261,98 @@ router.post("/costos/eliminarCosto/:id", (req, res) => {
   );
 
   res.status(200).send("success");
+});
+router.post("/productos/nuevoProducto", async (req, res) => {
+  console.log("req.body", req.body);
+
+  try {
+    let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
+      where: {
+        unidadMedida: req.body.unidadMedida,
+      },
+    });
+
+    if (!unidadMedidaExistente) {
+      unidadMedidaExistente = await Catalogo_unidad_medida.create({
+        unidadMedida: req.body.unidadMedida,
+      });
+    }
+
+    const imagen = await db.Imagen.create({
+      blobImage: req.body.img,
+    });
+
+    const { descripcion, medida, unidadMedida, img, nombre } = req.body;
+
+    const nuevoProducto = await db.Catalogo_producto.create({
+      descripcion,
+      medida,
+      nombre: nombre,
+      estado: "activo",
+      imagenId: imagen.id,
+      unidadMedidaId: unidadMedidaExistente.id,
+      Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
+    });
+    res.status(201).json({
+      message: "nuevo producto creado con éxito",
+      material: nuevoProducto,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Hubo un error al crear el nuevo Producto" });
+  }
+});
+router.get("/productos/listarTodos", (req, res) => {
+  console.log("Listando productos con unidades de medida");
+
+  Catalogo_productos.findAll({
+    where: {
+      estado: "activo",
+    },
+    include: [
+      {
+        model: Catalogo_unidad_medida,
+        as: "unidadMedida",
+      },
+      {
+        model: Imagenes,
+        as: "blobImage",
+      },
+    ],
+  })
+    .then(function (materiales) {
+      return res.status(200).json(materiales);
+    })
+    .catch((error) => {
+      console.log("Error: " + error);
+      return res.status(500).send("Error al listar materiales");
+    });
+});
+router.get("/compras/listarTodas", (req, res) => {
+  Compra_materiales.findAll({
+    include: [
+      {
+        model: Catalogo_materiales,
+        as: "catalogo_material",
+      },
+      {
+        model: Cotizacion,
+        as: "cotizacion",
+      },
+      {
+        model: Catalogo_unidad_medida,
+        as: "unidadMedida",
+      },
+    ],
+  })
+    .then(function (compras) {
+      console.log("COMPRAS con INCLUDE", compras);
+      return res.status(200).send(compras);
+    })
+    .catch((error) => {
+      console.log("Error al listar compras: " + error);
+      return res.status(500).send("Error al listar compras");
+    });
 });
 router.post("/combos/nuevoCombo/:comboName", async (req, res) => {
   console.log("req.body", req.body);
