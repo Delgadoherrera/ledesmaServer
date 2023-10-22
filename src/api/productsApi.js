@@ -129,27 +129,18 @@ router.post("/categorias/nuevoItem", async (req, res) => {
   try {
     let categoriaExistente = await Catalogo_categoria_productos.findOne({
       where: {
-        detalle: req.body.detalle,
+        detalle: req.body.categoria,
       },
     });
 
     if (!categoriaExistente) {
-      categoriaExistente = await Catalogo_categoria_productos.create({
-        detalle: req.body.detalle,
-      });
+      console.log(" NO EXISTE TAL CATEGORIA");
     }
 
-    /*   let item_categoria_existente = await Categoria_productos_item.findOne({
-    where: {
+    await Categoria_productos_item.create({
       descripcion: req.body.descripcion,
-    },
-  });
-
-  if (!item_categoria_existente) {
-    item_categoria_existente = await Categoria_productos_item.create({
-      descripcion: req.body.descripcion,
+      categoria_id: categoriaExistente.id,
     });
-  } */
 
     res
       .status(201)
