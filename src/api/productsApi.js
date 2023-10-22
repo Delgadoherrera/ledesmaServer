@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database/models");
+var Sequelize = require("sequelize");
 const Catalogo_materiales = db.Catalogo_material;
 const Compra_materiales = db.Compra_material;
 const Cotizacion = db.Cotizacion;
@@ -12,12 +13,12 @@ const Imagenes = db.Imagen;
 const Catalogo_productos = db.Catalogo_producto;
 const Catalogo_costos = db.Catalogo_costo;
 const Costo_items = db.Costo_item;
-var Sequelize = require("sequelize");
+const Catalogo_categoria_productos = db.Catalogo_categoria_producto;
+const Categoria_productos_item = db.Categoria_producto_item;
 const Op = Sequelize.Op;
 const objetoFecha = Date.now();
 const nowDate = new Date(objetoFecha);
 const fecha = nowDate.toLocaleDateString("en-ZA");
-
 
 router.get("/materiales/listarTodos", (req, res) => {
   console.log("Listando productos con unidades de medida");
@@ -73,6 +74,26 @@ router.post("/materiales/nuevoMaterial", async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Hubo un error al crear el material" });
   }
+});
+router.post("/categorias/nuevaCategoriaProducto", async (req, res) => {
+  console.log("req.body", req.body);
+  res
+    .status(201)
+    .json({ message: "Costo creado con éxito", material: nuevoCosto });
+  /* try {
+    const { costo, concepto } = req.body;
+    const nuevoCosto = await Catalogo_costos.create({
+      costo: costo,
+      concepto: concepto,
+      estado:"activo"
+    });
+    res
+      .status(201)
+      .json({ message: "Costo creado con éxito", material: nuevoCosto });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Hubo un error al crear el material" });
+  } */
 });
 router.post("/materiales/borrarMaterial/:id", (req, res) => {
   Catalogo_materiales.update(
@@ -188,7 +209,7 @@ router.post("/costos/nuevoCosto", async (req, res) => {
     const nuevoCosto = await Catalogo_costos.create({
       costo: costo,
       concepto: concepto,
-      estado:"activo"
+      estado: "activo",
     });
     res
       .status(201)
