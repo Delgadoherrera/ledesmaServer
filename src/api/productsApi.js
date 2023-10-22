@@ -156,6 +156,26 @@ router.post("/categorias/nuevoItemProducto", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al crear el material" });
   }
 });
+router.get("/categorias/listarItemsProductos", (req, res) => {
+  console.log("LISTANDO COSTO_ITEMS");
+
+  Categoria_productos_item.findAll({
+    include: [
+      {
+        model: Catalogo_categoria_productos, // Debe coincidir con el nombre del modelo
+        as: "id", // Debe coincidir con el alias en el modelo Costo_item
+      },
+    ],
+  })
+    .then(function (compras) {
+      console.log("COMPRAS con INCLUDE", compras);
+      return res.status(200).send(compras);
+    })
+    .catch((error) => {
+      console.log("Error al listar compras: " + error);
+      return res.status(500).send("Error al listar compras");
+    });
+});
 router.post("/materiales/borrarMaterial/:id", (req, res) => {
   Catalogo_materiales.update(
     {

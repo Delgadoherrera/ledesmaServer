@@ -20,8 +20,8 @@ module.exports = (sequelize, dataTypes) => {
   const Categoria_producto_item = sequelize.define(alias, cols, config);
 
   Categoria_producto_item.associate = function (models) {
-    Categoria_producto_item.hasMany(models.Catalogo_producto, {
-      as: "catalogo_producto", // Alias para la relación
+    Categoria_producto_item.hasMany(models.Catalogo_categoria_producto, {
+      as: "catalogo_categoria_producto", // Alias para la relación
       foreignKey: "id", // La columna correcta que relaciona unidades de medida con materiales
     });
   };
