@@ -43,10 +43,11 @@ module.exports = (sequelize, dataTypes) => {
       foreignKey: "imagenId",
       as: "blobImage",
     });
+    Catalogo_producto.belongsTo(models.Categoria_producto_item, {
+      foreignKey: "categoriaId",
+      as: "producto",
+    });
   };
-  Catalogo_producto.belongsTo(models.Categoria_producto_item, {
-    foreignKey: "categoriaId",
-    as: "producto",
-  });
+
   return Catalogo_producto;
 };
