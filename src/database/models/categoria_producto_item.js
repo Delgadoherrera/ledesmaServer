@@ -9,6 +9,9 @@ module.exports = (sequelize, dataTypes) => {
     descripcion: {
       type: dataTypes.STRING,
     },
+    categoria_id: {
+      type: dataTypes.INTEGER,
+    },
   };
   let config = {
     tableName: "categoria_producto_item",
@@ -22,5 +25,5 @@ module.exports = (sequelize, dataTypes) => {
       foreignKey: "id", // La columna correcta que relaciona unidades de medida con materiales
     });
   };
-  return Categoria_producto_item;  
+  return Categoria_producto_item;
 };

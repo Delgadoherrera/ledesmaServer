@@ -9,9 +9,6 @@ module.exports = (sequelize, dataTypes) => {
     detalle: {
       type: dataTypes.STRING,
     },
-    item_id: {
-      type: dataTypes.INTEGER,
-    },
   };
   let config = {
     tableName: "catalogo_categoria_producto",
