@@ -370,13 +370,13 @@ router.post("/productos/nuevoProducto", async (req, res) => {
   try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
-        unidadMedida: req.body.unidadMedida,
+        unidadMedida: req.body.detalle.value,
       },
     });
 
     if (!unidadMedidaExistente) {
       unidadMedidaExistente = await Catalogo_unidad_medida.create({
-        unidadMedida: req.body.unidadMedida,
+        unidadMedida: req.body.detalle.value,
       });
     }
 
@@ -392,6 +392,7 @@ router.post("/productos/nuevoProducto", async (req, res) => {
       nombre: nombre,
       estado: "activo",
       imagenId: imagen.id,
+      categoriaId: req.body.categoria,
       unidadMedidaId: unidadMedidaExistente.id,
       Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
     });
