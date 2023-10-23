@@ -423,6 +423,12 @@ router.get("/productos/listarTodos", (req, res) => {
       {
         model: Categoria_productos_item,
         as: "producto",
+        include: [
+          {
+            model: Catalogo_categoria_productos, // Incluye la relación con la categoría
+            as: "categoria",
+          },
+        ],
       },
     ],
   })
