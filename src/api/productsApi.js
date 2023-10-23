@@ -419,7 +419,7 @@ router.get("/productos/listarTodos", (req, res) => {
       },
       {
         model: Imagenes,
-        as: "blobImage",
+        as: "imagenes",
       },
       {
         model: Categoria_productos_item,
