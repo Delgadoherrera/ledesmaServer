@@ -21,9 +21,6 @@ module.exports = (sequelize, dataTypes) => {
     unidadMedidaId: {
       type: dataTypes.INTEGER,
     },
-    imagenId: {
-      type: dataTypes.INTEGER,
-    },
     categoriaId: {
       type: dataTypes.INTEGER,
     },
@@ -38,10 +35,6 @@ module.exports = (sequelize, dataTypes) => {
     Catalogo_producto.belongsTo(models.Catalogo_unidad_medida, {
       foreignKey: "unidadMedidaId",
       as: "unidadMedida",
-    });
-    Catalogo_producto.belongsTo(models.Imagen, {
-      foreignKey: "imagenId",
-      as: "blobImage",
     });
     Catalogo_producto.belongsTo(models.Categoria_producto_item, {
       foreignKey: "categoriaId",
