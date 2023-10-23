@@ -20,15 +20,12 @@ module.exports = (sequelize, dataTypes) => {
   const Imagen = sequelize.define(alias, cols, config);
 
   Imagen.associate = function (models) {
- /*    Imagen.hasMany(models.Catalogo_producto, {
-      as: "catalogo_productos", // Alias para la relación
-      foreignKey: "imagenId", // La columna correcta que relaciona unidades de medida con materiales
-    }); */
-
-    Imagen.belongsTo(models.Catalogo_producto, {
-      foreignKey: "categoriaId",
-      as: "imagenes",
-    });
+    Imagen.associate = function (models) {
+      Imagen.belongsTo(models.Catalogo_producto, {
+        foreignKey: "catalogoId", // La columna en la tabla Imagen que se relaciona con el catálogo
+        as: "catalogo_producto", // Un alias para la relación, puedes cambiar esto si lo deseas
+      });
+    };
   };
   return Imagen;
 };

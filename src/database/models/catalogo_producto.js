@@ -40,6 +40,12 @@ module.exports = (sequelize, dataTypes) => {
       foreignKey: "categoriaId",
       as: "producto",
     });
+    Catalogo_producto.associate = function (models) {
+      Catalogo_producto.hasMany(models.Imagen, {
+        foreignKey: 'catalogoId', // La columna en la tabla Imagen que se relaciona con el catálogo
+        as: 'imagenes', // Un alias para la relación, puedes cambiar esto si lo deseas
+      });
+    };
   };
 
   return Catalogo_producto;
