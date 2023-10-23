@@ -20,12 +20,11 @@ module.exports = (sequelize, dataTypes) => {
   const Imagen = sequelize.define(alias, cols, config);
 
   Imagen.associate = function (models) {
-    Imagen.associate = function (models) {
-      Imagen.belongsTo(models.Catalogo_producto, {
-        foreignKey: "catalogoId", // La columna en la tabla Imagen que se relaciona con el catálogo
-        as: "catalogo_producto", // Un alias para la relación, puedes cambiar esto si lo deseas
-      });
-    };
+    Imagen.belongsTo(models.Catalogo_producto, {
+      foreignKey: 'catalogoId', // La columna en la tabla Imagen que se relaciona con el catálogo
+      as: 'catalogo_producto', // Un alias para la relación
+    });
   };
+  
   return Imagen;
 };
