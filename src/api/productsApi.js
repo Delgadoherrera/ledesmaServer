@@ -380,10 +380,6 @@ router.post("/productos/nuevoProducto", async (req, res) => {
       });
     }
 
-    const imagen = await db.Imagen.create({
-      blobImage: req.body.img,
-    });
-
     const { descripcion, medida, unidadMedida, img, nombre } = req.body;
 
     const nuevoProducto = await db.Catalogo_producto.create({
@@ -394,6 +390,11 @@ router.post("/productos/nuevoProducto", async (req, res) => {
       unidadMedidaId: unidadMedidaExistente.id,
       Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
     });
+    const imagen = await db.Imagen.create({
+      blobImage: req.body.img,
+      catalogoId: nuevoProducto.id,
+    });
+
     res.status(201).json({
       message: "nuevo producto creado con éxito",
       material: nuevoProducto,
