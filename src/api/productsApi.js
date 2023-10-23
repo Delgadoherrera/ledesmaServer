@@ -389,9 +389,7 @@ router.post("/productos/nuevoProducto", async (req, res) => {
     const nuevoProducto = await db.Catalogo_producto.create({
       descripcion,
       medida,
-      nombre: nombre,
       estado: "activo",
-      imagenId: imagen.id,
       categoriaId: req.body.categoria,
       unidadMedidaId: unidadMedidaExistente.id,
       Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
