@@ -425,10 +425,6 @@ router.get("/productos/listarTodos", (req, res) => {
         model: Categoria_productos_item,
         as: "producto",
       },
-      {
-        model: Catalogo_categoria_productos,
-        as: "categoria",
-      },
     ],
   })
     .then(function (materiales) {

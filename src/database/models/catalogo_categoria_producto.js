@@ -21,10 +21,6 @@ module.exports = (sequelize, dataTypes) => {
       as: "items", // Alias para la relación
       foreignKey: "categoria_id", // La columna correcta que relaciona categorías con elementos
     });
-    Catalogo_categoria_producto.hasMany(models.Catalogo_producto, {
-      as: "producto", // Alias para la relación
-      foreignKey: "id", // La columna correcta que relaciona categorías con elementos
-    });
   };
   return Catalogo_categoria_producto;  
 };
