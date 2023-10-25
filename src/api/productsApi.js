@@ -370,13 +370,13 @@ router.post("/productos/nuevoProducto", async (req, res) => {
   try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
-        unidadMedida: req.body.detalle,
+        unidadMedida: req.body.unidadMedida,
       },
     });
 
     if (!unidadMedidaExistente) {
       unidadMedidaExistente = await Catalogo_unidad_medida.create({
-        unidadMedida: req.body.detalle.value,
+        unidadMedida: req.body.unidadMedida,
       });
     }
 
