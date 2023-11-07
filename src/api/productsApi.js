@@ -350,6 +350,20 @@ router.put("/costos/editar/:id", async (req, res) => {
     res.status(500).json({ error: "Hubo un error al actualizar el costo" });
   }
 });
+router.post("/productos/eliminarProducto/:id", (req, res) => {
+  Catalogo_productos.update(
+    {
+      estado: "hide",
+    },
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  );
+
+  res.status(200).send("success");
+});
 router.post("/costos/eliminarCosto/:id", (req, res) => {
   Catalogo_costos.update(
     {
@@ -373,7 +387,7 @@ router.post("/productos/nuevoProducto", async (req, res) => {
         unidadMedida: req.body.unidadMedida,
       },
     });
-
+    
     if (!unidadMedidaExistente) {
       unidadMedidaExistente = await Catalogo_unidad_medida.create({
         unidadMedida: req.body.unidadMedida,
