@@ -387,7 +387,7 @@ router.post("/productos/nuevoProducto", async (req, res) => {
         unidadMedida: req.body.unidadMedida,
       },
     });
-    
+
     if (!unidadMedidaExistente) {
       unidadMedidaExistente = await Catalogo_unidad_medida.create({
         unidadMedida: req.body.unidadMedida,
@@ -521,6 +521,42 @@ router.post("/combos/nuevoCombo/:comboName", async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Hubo un error al crear el combo" });
   }
+});
+
+router.put("/productos/editar/:id", async (req, res) => {
+  console.log("Editar producto:", req.body);
+  /* const materialId = req.params.id;
+  const { unidadMedida } = req.body.data;
+
+  try {
+    let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
+      where: {
+        unidadMedida: unidadMedida,
+      },
+    });
+
+    if (!unidadMedidaExistente) {
+      unidadMedidaExistente = await Catalogo_unidad_medida.create({
+        unidadMedida: unidadMedida,
+      });
+    }
+    console.log("unidadMedidaExistente ID", unidadMedidaExistente);
+    const material = await db.Catalogo_material.findByPk(materialId);
+
+    if (!material) {
+      return res.status(404).json({ error: "Material no encontrado" });
+    }
+    material.descripcion = req.body.data.descripcion;
+    material.unidadMedidaId = unidadMedidaExistente.id;
+    await material.save();
+
+    res.status(200).json({ message: "Unidad de medida actualizada con éxito" });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "Hubo un error al actualizar la unidad de medida" });
+  } */
 });
 
 module.exports = router;
