@@ -535,7 +535,7 @@ router.put("/productos/editar/:id", async (req, res) => {
     medida,
     descripcion,
   } = req.body.data;
-  console.log('idProduct:',materialId)
+  console.log("idProduct:", materialId);
   try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
@@ -543,7 +543,7 @@ router.put("/productos/editar/:id", async (req, res) => {
       },
     });
 
-/*     if (!unidadMedidaExistente) {
+    /*     if (!unidadMedidaExistente) {
       unidadMedidaExistente = await Catalogo_unidad_medida.create({
         unidadMedida: unidadMedida,
       });
@@ -554,9 +554,9 @@ router.put("/productos/editar/:id", async (req, res) => {
     }
     producto.descripcion = descripcion;
     producto.unidadMedidaId = unidadMedidaExistente.id;
-    producto.categoriaId = newTipo.categoria_id || oldTipo;
+    producto.categoriaId = newCategoria.id || oldCategoria
     producto.medida = medida;
-    
+
     await producto.save();
 
     res.status(200).json({ message: "producto actualizado con éxito" });
