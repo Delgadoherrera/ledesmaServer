@@ -553,7 +553,7 @@ router.put("/productos/editar/:id", async (req, res) => {
       return res.status(404).json({ error: "producto no encontrado" });
     }
     producto.descripcion = descripcion;
-    producto.unidadMedidaId = unidadMedidaExistente;
+    producto.unidadMedidaId = unidadMedidaExistente.id;
     producto.categoriaId = newTipo || oldTipo;
     producto.medida = medida;
     
