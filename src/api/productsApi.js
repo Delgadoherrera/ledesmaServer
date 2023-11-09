@@ -525,8 +525,16 @@ router.post("/combos/nuevoCombo/:comboName", async (req, res) => {
 
 router.put("/productos/editar/:id", async (req, res) => {
   console.log("Editar producto:", req.body);
-  /* const materialId = req.params.id;
-  const { unidadMedida } = req.body.data;
+  const materialId = req.params.id;
+  const {
+    unidadMedida,
+    newCategoria,
+    oldCategoria,
+    newTipo,
+    oldTipo,
+    medida,
+    descripcion,
+  } = req.body.data;
 
   try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
@@ -535,28 +543,29 @@ router.put("/productos/editar/:id", async (req, res) => {
       },
     });
 
-    if (!unidadMedidaExistente) {
+/*     if (!unidadMedidaExistente) {
       unidadMedidaExistente = await Catalogo_unidad_medida.create({
         unidadMedida: unidadMedida,
       });
+    } */
+    const producto = await db.Catalogo_productos.findByPk(materialId);
+    if (!producto) {
+      return res.status(404).json({ error: "producto no encontrado" });
     }
-    console.log("unidadMedidaExistente ID", unidadMedidaExistente);
-    const material = await db.Catalogo_material.findByPk(materialId);
+    producto.descripcion = descripcion;
+    producto.unidadMedidaId = unidadMedidaExistente;
+    producto.categoriaId = newTipo || oldTipo;
+    medida = medida;
+    
+    await producto.save();
 
-    if (!material) {
-      return res.status(404).json({ error: "Material no encontrado" });
-    }
-    material.descripcion = req.body.data.descripcion;
-    material.unidadMedidaId = unidadMedidaExistente.id;
-    await material.save();
-
-    res.status(200).json({ message: "Unidad de medida actualizada con éxito" });
+    res.status(200).json({ message: "producto actualizado con éxito" });
   } catch (error) {
     console.error(error);
     res
       .status(500)
       .json({ error: "Hubo un error al actualizar la unidad de medida" });
-  } */
+  }
 });
 
 module.exports = router;
