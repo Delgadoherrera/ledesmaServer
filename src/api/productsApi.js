@@ -535,7 +535,7 @@ router.put("/productos/editar/:id", async (req, res) => {
     medida,
     descripcion,
   } = req.body.data;
-
+  console.log('idProduct:',materialId)
   try {
     let unidadMedidaExistente = await Catalogo_unidad_medida.findOne({
       where: {
