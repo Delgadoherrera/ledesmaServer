@@ -554,7 +554,7 @@ router.put("/productos/editar/:id", async (req, res) => {
     }
     producto.descripcion = descripcion;
     producto.unidadMedidaId = unidadMedidaExistente.id;
-    producto.categoriaId = newTipo || oldTipo;
+    producto.categoriaId = newTipo.categoria_id || oldTipo;
     producto.medida = medida;
     
     await producto.save();
