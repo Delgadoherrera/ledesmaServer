@@ -548,7 +548,7 @@ router.put("/productos/editar/:id", async (req, res) => {
         unidadMedida: unidadMedida,
       });
     } */
-    const producto = await db.Catalogo_productos.findByPk(materialId);
+    const producto = await Catalogo_productos.findByPk(materialId);
     if (!producto) {
       return res.status(404).json({ error: "producto no encontrado" });
     }
