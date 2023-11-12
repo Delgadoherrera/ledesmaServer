@@ -404,11 +404,22 @@ router.post("/productos/nuevoProducto", async (req, res) => {
       unidadMedidaId: unidadMedidaExistente.id,
       Catalogo_unidad_medidaId: unidadMedidaExistente, // Asocia el material con la unidad de medida existente
     });
-    const imagen = await db.Imagen.create({
+  /*   const imagen = await db.Imagen.create({
       blobImage: req.body.img,
       catalogoId: nuevoProducto.id,
-    });
+    }); */
 
+    const imagenes = req.body.imagenes;
+    if (imagenes && Array.isArray(imagenes)) {
+      for (const imgObj of imagenes) {
+        if (imgObj && imgObj.thumbUrl) {
+          await db.Imagen.create({
+            blobImage: imgObj.thumbUrl, // Aquí se guarda la imagen en base64 extraída de thumbUrl
+            catalogoId: nuevoProducto.id,
+          });
+        }
+      }
+    }
     res.status(201).json({
       message: "nuevo producto creado con éxito",
       material: nuevoProducto,
